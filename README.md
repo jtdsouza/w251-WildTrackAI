@@ -12,7 +12,8 @@ Build container from Docker file:
 *sudo docker build -t wildai_intake -f Dockerfile.tx2-4.3_b132-py3 .*
 
 
-Run container in interactive mode: 
+Run container in interactive mode:   
+
 *sudo docker run --privileged --rm --it --name wildtrack -v /data/WildAI:/WildAI -p 8888:8888 -d wildai_intake*  
 
 Note that we are just mapping the local folder to the /WildAI folder on the container (not using S3 just yet).   
