@@ -13,14 +13,16 @@ Build container from Docker file:
 
 
 Run container in interactive mode: 
-*sudo docker run --privileged --rm --it --name wildtrack -v /data/WildAI:/WildAI -p 8888:8888 -d wildai_intake*
-Note that we are just mapping the local folder to the. /WildAI folder on the container (not using S3 just yet)
+*sudo docker run --privileged --rm --it --name wildtrack -v /data/WildAI:/WildAI -p 8888:8888 -d wildai_intake*  
+
+Note that we are just mapping the local folder to the /WildAI folder on the container (not using S3 just yet).   
 
 To access shell for container:   
-*sudo docker attach wildtrack*
+*sudo docker attach wildtrack*   
 
-From command line in container, changed directory to /WildAI:
-*cd /WildAI*
 
-Run script
+From command line in container, changed directory to /WildAI:  
+*cd /WildAI*  
+  
+Run script:    
 *python3 predict.py*
