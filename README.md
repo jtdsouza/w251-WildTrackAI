@@ -3,7 +3,7 @@ WildTrack AI work (started with W251)
 
 
 ## Instructions for running Inference on TX2
-Download puython scripts, models, pickle files,sample images adn docker build file to local drive on the TX2
+Download python scripts, models, pickle files,sample images and docker build file to local drive on the TX2
 These are all located in this GDrive folder: https://drive.google.com/open?id=1srD-FnmRypFVtHqbn3vQSFDRgWDmJNkP   
 It would be simplest to just download the entire folder (for example: to /data/WildAI/ on the TX2) and preserve the subfolder structure.  
 
