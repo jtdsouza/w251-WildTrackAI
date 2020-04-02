@@ -22,6 +22,11 @@ To access shell for container:
 *sudo docker attach wildtrack*   
 
 
+Or - to attach to container and correct working directory in one step
+
+*sudo docker run --privileged --rm --it --name wildtrack -v /data/WildAI:/WildAI -p 8888:8888 -w /WildAI wildai_intake*
+
+
 From command line in container, changed directory to /WildAI:  
 *cd /WildAI*  
   
