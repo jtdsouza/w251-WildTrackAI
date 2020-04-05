@@ -26,7 +26,14 @@
 
 </head>
 <body>
+
+<!-- Added for search -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+<script src="https://rawgit.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js"></script>
+<!-- End Added for search -->
+
 <script src="trackfile.js"></script>
+<script src='controllers/search.js'></script>
 <div id='map'></div>
 <script>
 	
@@ -90,7 +97,39 @@
 	},
 		onEachFeature: onEachFeature
 	}).addTo(map);
+	
+	//var legend2 = L.control({position: 'bottomright'}); 
+	//legend2.onAdd = function (map) {        
+    //	var div = L.DomUtil.create('div', 'info legend2');
+    //	div.innerHTML = '<img src="images/wildtrack-logo.png" >';     
+    //	return div;
+	//};      
+	//legend2.addTo(map);
 
+	L.Control.Watermark = L.Control.extend({
+    onAdd: function(map) {
+        var img = L.DomUtil.create('img');
+
+        img.src = 'images/wildtrack-logo-removebg-preview.png';
+        img.style.width = '200px';
+
+        return img;
+    },
+
+    onRemove: function(map) {
+        // Nothing to do here
+    }
+	});
+
+	L.control.watermark = function(opts) {
+    	return new L.Control.Watermark(opts);
+	}
+
+	L.control.watermark({ position: 'bottomright' }).addTo(map);
+
+	L.control.search({
+		data: wildtracks
+	}).addTo(map);
 </script>
 
 
