@@ -2,6 +2,7 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.vgg16 import preprocess_input as VGG16Pre
 from tensorflow.keras.layers import Lambda, Flatten, Dense, Dropout
 from tensorflow.keras.layers import Conv2D, ZeroPadding2D, Activation, Input, concatenate
@@ -13,11 +14,23 @@ import numpy as np
 import pickle
 import os
 
+import paho.mqtt.client as mqtt
+import time
+
 modelpath='/WildAI/models'
 printpath='/WildAI/data'
 
+MQTT_HOST = "mqttBrok"
+MQTT_PORT = 1883
+QOS = 2
 
+def on_connect(client, userdata, flags, rc):
+    print("Connected to Edge Broker with RC:", rc)
 
+mqttclient = mqtt.Client("Edge Footprint Classifier")
+mqttclient.on_connect = on_connect
+mqttclient.connect(MQTT_HOST, MQTT_PORT, 60)
+mqttclient.loop_start()
 
 #Load Data
 # Function to load and individual image to a specified size.
@@ -192,5 +205,18 @@ for i in range(len(Prints)):
   
   print(Files[i]," --- ",Y_Species[i]," (",round(Y_Probabilities[i],2),"% confidence) --- ",Y_Individuals[i]," (",round(Y_Ind_Probability[i],2),"% confidence)")
   ##Note - potential msg output: uncomment next 2 lines to try out
-  #msgtopic="WildAI/TX2-JDS/"+Instances[i]+"/"+Files[i]+"/"+Y_Species[i]+"/"+Y_Individuals[i]
-  #print(msgtopic)
+  msgtopic="WildAI/TX2-JDS/"+Instances[i]+"/"+Files[i]+"/"+Y_Species[i]+"/"+Y_Individuals[i]
+  print("Publishing message to topic:", msgtopic)
+#  print(Prints[i].dtype)
+#  print(Prints[i].shape)
+#  img_array = img_to_array(Prints[i])
+#  print(img_array.dtype)
+#  print(img_array.shape)
+#  img_pil = array_to_img(img_array)
+  img = Prints[i].tobytes()
+#  print(img.dtype)
+  mqttclient.publish(msgtopic, payload=img, qos=QOS, retain=False)
+  time.sleep(4)
+
+mqttclient.loop_stop()
+mqttclient.disconnect()
