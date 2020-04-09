@@ -9,28 +9,15 @@ from tensorflow.keras.layers import Conv2D, ZeroPadding2D, Activation, Input, co
 from tensorflow.keras.models import Model
 from tensorflow.keras import backend as K
 
-
 import numpy as np
 import pickle
 import os
-
 import paho.mqtt.client as mqtt
 import time
 
 modelpath='/WildAI/models'
 printpath='/WildAI/data'
 
-MQTT_HOST = "mqttBrok"
-MQTT_PORT = 1883
-QOS = 2
-
-def on_connect(client, userdata, flags, rc):
-    print("Connected to Edge Broker with RC:", rc)
-
-mqttclient = mqtt.Client("Edge Footprint Classifier")
-mqttclient.on_connect = on_connect
-mqttclient.connect(MQTT_HOST, MQTT_PORT, 60)
-mqttclient.loop_start()
 
 #Load Data
 # Function to load and individual image to a specified size.
@@ -62,6 +49,10 @@ def LoadDataSet(folder,preprocessor,size=(224,224)):
             else:
                 print("Image: ",footprint,x.shape)
                 Prints.append(x)
+
+                np.save("/WildAI/images/arrays/"+footprint, x)
+                #x.tofile("/WildAI/images/img"+footprint)                
+                
                 Instances.append(instance)
                 Individuals.append(footprint)
     return Prints,Instances,Individuals
@@ -199,24 +190,44 @@ for spec_indx in range(len(rawspecies)):
     
 #Print out prediction results AND/OR compose message to be transmitted (see commented out code)
 
-print("\n\nFound the following footprints: \n")
-print("File name    ---   Species  ---  Individual")
+print("\n\nPreparing images for transfer...\n")
+
+MQTT_HOST = "mqttBrok"
+MQTT_PORT = 1883
+QOS = 2
+
+def on_connect(client, userdata, flags, rc):
+    print("Connected to Edge Broker with RC:", rc)
+    print("")
+
+def on_publish(client, userdata, result):
+    print("Message", result, "Published to Local Forwarder\n")
+
+mqttclient = mqtt.Client("Edge Footprint Classifier")
+mqttclient.on_connect = on_connect
+mqttclient.on_publish = on_publish
+mqttclient.connect(MQTT_HOST, MQTT_PORT, 60)
+mqttclient.loop_start()
+time.sleep(5)
+
+print("\n\nIdentified the following footprints: \n")
+
 for i in range(len(Prints)):
   
-  print(Files[i]," --- ",Y_Species[i]," (",round(Y_Probabilities[i],2),"% confidence) --- ",Y_Individuals[i]," (",round(Y_Ind_Probability[i],2),"% confidence)")
-  ##Note - potential msg output: uncomment next 2 lines to try out
-  msgtopic="WildAI/TX2-JDS/"+Instances[i]+"/"+Files[i]+"/"+Y_Species[i]+"/"+Y_Individuals[i]
-  print("Publishing message to topic:", msgtopic)
-#  print(Prints[i].dtype)
-#  print(Prints[i].shape)
-#  img_array = img_to_array(Prints[i])
-#  print(img_array.dtype)
-#  print(img_array.shape)
-#  img_pil = array_to_img(img_array)
-  img = Prints[i].tobytes()
-#  print(img.dtype)
-  mqttclient.publish(msgtopic, payload=img, qos=QOS, retain=False)
-  time.sleep(4)
+    # print confidence levels from inference
+    print("File Name:", Files[i]," --- ", 
+          "Species:", Y_Species[i]," (",round(Y_Probabilities[i],2),"% confidence) --- ", 
+          "Individual:", Y_Individuals[i]," (",round(Y_Ind_Probability[i],2),"% confidence)")
+    
+    # define message topic with relevant details
+    msgtopic="WildAI/TX2-JDS/"+Y_Species[i]+"/"+Y_Individuals[i]+"/"+Instances[i]+"/"+Files[i]
+    # convert image numpy array to byte array for messaging
+    img = pickle.dumps(Prints[i])
+    # publish message to local mosquitto broker
+    print("Publishing Message to Topic:", msgtopic)
+    mqttclient.publish(msgtopic, payload=img, qos=QOS, retain=False)
+    # set delay to allow time for message delivery
+    time.sleep(10)
 
 mqttclient.loop_stop()
 mqttclient.disconnect()
