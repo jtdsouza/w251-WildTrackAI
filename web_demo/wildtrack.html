@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,8 +7,6 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 
@@ -48,7 +45,7 @@
 	// Extend leaflet icon object to generalize icon size as well as icon and popup anchors
 	var TrackIcon = L.Icon.extend({
 		options: {
-			iconSize:     [77, 80],
+			iconSize:     [100, 80],
 			iconAnchor:   [22, 94],
 			popupAnchor:  [-3, -76]
 		}
@@ -86,25 +83,49 @@
 			popupContent += "Latitude : " + feature.geometry.coordinates[1] + "<br>";
 			popupContent += "Longitude: " + feature.geometry.coordinates[0] + "<br>";
 		}
-
+		if (feature.geometry && feature.properties.iconUrl) {
+			popupContent += "<br><center><img src=\"" + feature.properties.iconUrl + "\" height=\"80\" width=\"80\" border=\"1\"></center>"
+		}
+		
 		layer.bindPopup(popupContent);
 	}
 	
     // Add icon markers to map
 	var tracksLayer = L.geoJSON(wildtracks, {
 		pointToLayer: function (feature, latlng) {
-		return L.marker(latlng, {icon: new TrackIcon({iconUrl: feature.properties.iconUrl }) });
+		var imageUrl = "images/icons/"
+		switch(feature.properties.species) {
+			case "Puma":
+				imageUrl += "puma.png"
+				break;
+			case "Lowland Tapir":
+				imageUrl += "tapir.png"
+				break;
+			case "Black Rhino":
+				imageUrl += "black_rhino.png"
+				break;
+			case "White Rhino":
+				imageUrl += "white_rhino.png"
+				break;
+			case "Leopard":
+				imageUrl += "leopard.png"
+				break;
+			case "Amur Tiger":
+				imageUrl += "amur_tiger.png"
+				break;
+			case "Bengal Tiger":
+				imageUrl += "bengal_tiger.png"
+				break;
+			case "Cheetah":
+				imageUrl += "cheetah.png"
+				break;
+			default:
+				imageUrl += "unknown.jpg"
+		}
+		return L.marker(latlng, {icon: new TrackIcon({iconUrl: imageUrl }) });
 	},
 		onEachFeature: onEachFeature
 	}).addTo(map);
-	
-	//var legend2 = L.control({position: 'bottomright'}); 
-	//legend2.onAdd = function (map) {        
-    //	var div = L.DomUtil.create('div', 'info legend2');
-    //	div.innerHTML = '<img src="images/wildtrack-logo.png" >';     
-    //	return div;
-	//};      
-	//legend2.addTo(map);
 
 	L.Control.Watermark = L.Control.extend({
     onAdd: function(map) {
