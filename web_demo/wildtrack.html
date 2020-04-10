@@ -163,7 +163,7 @@
 
 	// Species count summary table
 	$("#table").handsontable({
-		data: speciesList,
+		data: speciesList.filter(function(ele){ return ele.count != 0; }),
 		startRows: 3,
 		startCols: 2,
 		colHeaders: ['Species', 'Count'],
