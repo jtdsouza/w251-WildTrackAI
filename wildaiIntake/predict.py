@@ -14,6 +14,8 @@ import pickle
 import os
 import paho.mqtt.client as mqtt
 import time
+import re
+from datetime import datetime
 
 modelpath='/WildAI/models'
 printpath='/WildAI/data'
@@ -200,8 +202,8 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to Edge Broker with RC:", rc)
     print("")
 
-def on_publish(client, userdata, result):
-    print("Message", result, "Published to Local Forwarder\n")
+def on_publish(client, userdata, msgid):
+    print("Message", msgid, "Published to Local Broker\n\n")
 
 mqttclient = mqtt.Client("Edge Footprint Classifier")
 mqttclient.on_connect = on_connect
@@ -213,21 +215,37 @@ time.sleep(5)
 print("\n\nIdentified the following footprints: \n")
 
 for i in range(len(Prints)):
+
+    mqttTopic = 'WildAI'
+    dtStamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    device = 'TX2-MAR'
+    fileName = Files[i]
+    species = Y_Species[i]
+    spcProb = str(round(Y_Probabilities[i],2))
+    individual = Y_Individuals[i]
+    indProb = str(round(Y_Ind_Probability[i],2))
+    coordinates = Instances[i][2:Instances[i].rfind('_')]
   
-    # print confidence levels from inference
-    print("File Name:", Files[i]," --- ", 
-          "Species:", Y_Species[i]," (",round(Y_Probabilities[i],2),"% confidence) --- ", 
-          "Individual:", Y_Individuals[i]," (",round(Y_Ind_Probability[i],2),"% confidence)")
-    
-    # define message topic with relevant details
-    msgtopic="WildAI/TX2-JDS/"+Y_Species[i]+"/"+Y_Individuals[i]+"/"+Instances[i]+"/"+Files[i]
+    # print image attributes from inference
+    print('{:^30}{:^1}{:^30}'.format('Attribute', '|', 'Value'))
+    print('='*61)
+    cols = '{:30}{:^1}{:>30}'
+    print(cols.format('File Name', '|', fileName))
+    print(cols.format('Device', '|', device))
+    print(cols.format('Date, Time', '|', re.sub('_', ', ', dtStamp)))
+    print(cols.format('Species (Prob)', '|', species + ' ('+spcProb+'%)'))
+    print(cols.format('Individual (Prob)', '|', individual + ' ('+indProb+'%)'))
+    print(cols.format('Coordinates (lat, lon)', '|', re.sub('_', ', ', coordinates)))
+
+    # define mqtt message topic with relevant details
+    msgTopic = mqttTopic+"/"+dtStamp+"/"+device+"/"+species+"/"+individual+"/"+indProb+"/"+coordinates
     # convert image numpy array to byte array for messaging
     img = pickle.dumps(Prints[i])
     # publish message to local mosquitto broker
-    print("Publishing Message to Topic:", msgtopic)
-    mqttclient.publish(msgtopic, payload=img, qos=QOS, retain=False)
+    print("\nPublishing Message to Topic:", msgTopic)
+    mqttclient.publish(msgTopic, payload=img, qos=QOS, retain=False)
     # set delay to allow time for message delivery
-    time.sleep(10)
+    time.sleep(5)
 
 mqttclient.loop_stop()
 mqttclient.disconnect()
