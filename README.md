@@ -1,7 +1,7 @@
 # w251-WildTrackAI
 WildTrack AI work (started with W251)
 
-## Introduction: (Johnathan)
+## Introduction: (Jonathan)
 What problem are we solving:
 Approach to solve the problem:
 Phase 1
@@ -18,7 +18,7 @@ Come up with final model
 
 ## Pipeline
 ### Flowchart
-### Cloud to container
+### Description of Each Component
 ### Front End
 Geo tagging, meta data
 Html file
