@@ -2,11 +2,11 @@
 WildTrack AI work (started with W251)
 
 ## 1. Introduction (Jonathan)
-What problem are we solving: 
-Approach to solve the problem: 
-### 1.1 Phase 1
-### 1.2 Phase 2
-### 1.3 Phase 3
+### 1.1 What problem are we solving: 
+### 1.2 Approach to solve the problem: 
+- Phase 1
+- Phase 2
+- Phase 3
 
 ## 2. Data Cleansing
 Crop images and separate into test and train
