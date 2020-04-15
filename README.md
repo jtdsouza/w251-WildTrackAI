@@ -30,7 +30,7 @@ Display footprint and information on map
 
 ## 6. Future Steps (Everyone)
 - Object Detection
-- 6.2 Model Enhancement
-- 6.3 Pipeline Optimization
-- 6.4 Productionalization
-- 6.5 Real-time Image Augmentation
+- Model Enhancement
+- Pipeline Optimization
+- Productionalization
+- Real-time Image Augmentation
