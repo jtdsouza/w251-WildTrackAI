@@ -29,8 +29,8 @@ Display footprint and information on map
 ### 6.2 Object detection (Mike, Tina)
 
 ## 6. Future Steps (Everyone)
-### 6.1 Object Detection
-### 6.2 Model Enhancement
-### 6.3 Pipeline Optimization
-### 6.4 Productionalization
-### 6.5 Real-time Image Augmentation
+- Object Detection
+- 6.2 Model Enhancement
+- 6.3 Pipeline Optimization
+- 6.4 Productionalization
+- 6.5 Real-time Image Augmentation
