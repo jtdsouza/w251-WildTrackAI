@@ -1,7 +1,7 @@
 # w251-WildTrackAI
 WildTrack AI work (started with W251)
 
-## 1. Introduction
+## 1. Introduction (Jonathan)
 What problem are we solving: 
 Approach to solve the problem: 
 ### 1.1 Phase 1
@@ -24,8 +24,13 @@ Geo tagging, meta data
 Html file
 Display footprint and information on map
 
-## 5. Future Steps
-
-## 6. Other: 
+## 5. Other: 
 ### 6.1 Augmentation (Dan)
 ### 6.2 Object detection (Mike, Tina)
+
+## 6. Future Steps (Everyone)
+### 6.1 Object Detection
+### 6.2 Model Enhancement
+### 6.3 Pipeline Optimization
+### 6.4 Productionalization
+### 6.5 Real-time Image Augmentation
