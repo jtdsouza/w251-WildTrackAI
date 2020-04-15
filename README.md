@@ -29,8 +29,8 @@ Display footprint and information on map
 ### 6.2 Object detection (Mike, Tina)
 
 ## 6. Future Steps (Everyone)
-- Object Detection
+- **Object Detection**: The team sees a real opportunity to streamline the image collection and inference process by implementing an object detection system whereby the model could detect footprints from images or videos taken from a further distance vs. closeup images taken at a very specific orientation and then cropped. Subsequently, we envision an implementation similar to YOLO whereby the model could perform classification in realtime through the camera of a mobile device applying an object detection algorithm. 
+- **Pipeline Optimization**: With the exception of the "intake" container which performs inference
 - Model Enhancement
-- Pipeline Optimization
 - Productionalization
 - Real-time Image Augmentation
