@@ -16,9 +16,9 @@ For a variety of reasons, raw images of footprints collected in the field still 
 Crop images and separate into test and train
 
 ## 3. Modeling
-3.1 Create model for species and individual ID classification
-3.2 Evaluate models: number of parameters, size, accuracy (Bona)
-3.3 Come up with final model
+3.1 Create model for species and individual ID classification  
+3.2 Evaluate models: number of parameters, size, accuracy (Bona)  
+3.3 Come up with final model  
 
 ## 4. Pipeline (Mike)
 ### 4.1 Flowchart
