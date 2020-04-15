@@ -22,7 +22,7 @@ Crop images and separate into test and train
 
 ## 4. Pipeline (Mike)
 ### 4.1 Flowchart
-### 4.2 Description of Each Component
+### 4.2 Components
 ### 4.3 Front End (Dan, Jacques)
 Geo tagging, meta data
 Html file
