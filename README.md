@@ -4,9 +4,9 @@ WildTrack AI work (started with W251)
 ## 1. Introduction
 What problem are we solving: 
 Approach to solve the problem: 
-## 1.1 Phase 1
-## 1.2 Phase 2
-## 1.3 Phase 3
+### 1.1 Phase 1
+### 1.2 Phase 2
+### 1.3 Phase 3
 
 ## 2. Data Cleansing
 Crop images and separate into test and train
@@ -26,6 +26,6 @@ Display footprint and information on map
 
 ## 5. Future Steps
 
-## Other: 
-### Augmentation (Dan)
-### Object detection (Mike, Tina)
+## 6. Other: 
+### 6.1 Augmentation (Dan)
+### 6.2 Object detection (Mike, Tina)
