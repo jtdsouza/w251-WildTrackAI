@@ -7,6 +7,8 @@ WildTrack is a non-profit organization whose mission is to protect endangered sp
 ### 1.1 Problem 
 For a variety of reasons, raw images of footprints collected in the field still need a fair amount of processing before they are ready to be analyzed, which requires human labor. Furthermore, location of new trails and/ or areas to capture new footprint images is a very manual exercise. These are the main impediments to timely processing and analysis of animal tracks in support of use cases that mitigate human wildlife conflicts and prevent illegal poaching.
 ### 1.2 Approach 
+This project uses state of the art Deep Learning techniques (specifically employing Convolutional Neural Networks)  for image detection and identification to improve the speed and efficiency of the current workflow to collect, pre-process and analyze footprints using FIT. We outline these methods and select the most adequate model to be utilized at the edge, fulfilling requirements to be on-boarded on a portable device and/or drone for inference in real time. We also explore how wide range images captured via drones can be used to further improve the efficacy of Wildlife Tracking.  
+Finally, we propose a practical implementation of an end to end solution using these methods on an edge device to collect and capture data saved in the cloud for further processing and model improvement.  
 - Phase 1
 - Phase 2
 - Phase 3
