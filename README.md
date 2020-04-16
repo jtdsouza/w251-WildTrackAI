@@ -25,6 +25,15 @@ Crop images and separate into test and train
 ## 4. Pipeline (Mike)
 ### 4.1 Flowchart
 ### 4.2 Components
+1. Cloud Training
+2. Edge Inference
+3. Edge Broker
+4. Edge Forwarder
+5. Cloud Broker
+6. Cloud Reciver
+7. Storage
+8. Image Database
+9. Front End Application
 ### 4.3 Front End (Dan, Jacques)
 Geo tagging, meta data
 Html file
