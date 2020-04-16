@@ -1,5 +1,5 @@
 # w251-WildTrackAI
-WildTrack AI work (started with W251)
+Footprint Identification for Wildlife Monitoring
 
 ## 1. Introduction (Jonathan)
 WildTrack is a non-profit organization whose mission is to protect endangered species via non-invasive and cost-effective monitoring using footprints. Commonly-used wildlife monitoring techniques rely on fitting of instrumentation to an animal (transmitter on a collar, tag, insert), marking, capture or close visual observation, which have shown to have counterproductive effects on conservation efforts.  
