@@ -4,9 +4,9 @@ WildTrack AI work (started with W251)
 ## 1. Introduction (Jonathan)
 WildTrack is a non-profit organization whose mission is to protect endangered species via non-invasive and cost-effective monitoring using footprints. Commonly-used wildlife monitoring techniques rely on fitting of instrumentation to an animal (transmitter on a collar, tag, insert), marking, capture or close visual observation, which have shown to have counterproductive effects on conservation efforts.  
 
-### 1.1 What problem are we solving: 
+### 1.1 Problem 
 For a variety of reasons, raw images of footprints collected in the field still need a fair amount of processing before they are ready to be analyzed, which requires human labor. Furthermore, location of new trails and/ or areas to capture new footprint images is a very manual exercise. These are the main impediments to timely processing and analysis of animal tracks in support of use cases that mitigate human wildlife conflicts and prevent illegal poaching.
-### 1.2 Approach to solve the problem: 
+### 1.2 Approach 
 - Phase 1
 - Phase 2
 - Phase 3
