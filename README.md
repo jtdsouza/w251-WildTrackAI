@@ -1,12 +1,24 @@
 # w251-WildTrackAI
 Footprint Identification for Wildlife Monitoring
 
-## 1. Introduction (Jonathan)
-WildTrack is a non-profit organization whose mission is to protect endangered species via non-invasive and cost-effective monitoring using footprints. Commonly-used wildlife monitoring techniques rely on fitting of instrumentation to an animal (transmitter on a collar, tag, insert), marking, capture or close visual observation, which have shown to have counterproductive effects on conservation efforts.  
+## 1. Introduction  
+![](WildTrack-Logo.jpg)  
+WildTrack (https://wildtrack.org/) is a non-profit organization whose mission is to protect endangered species via non-invasive and cost-effective monitoring using footprints.   
+Traditional wildlife monitoring techniques rely on fitting of instrumentation to an animal (transmitter on a collar, tag, insert), marking, capture or close visual observation, which have shown to have counterproductive effects on conservation efforts. WildTrack was founded on the premise that monitoring could be made safer and more efficient using non-invasive techniques based on the timehonored tradition of trail and footprint tracking used by indigenous trackers.  
+At the heart of WildTrack's methodology is a specialized software FIT (Footprint Identification Technnology) based on SAS JMP technology. FIT maintains a  database for animals of various species being tracked, creating a unique profile for each individual based on morphometrics of the footprints. Once set up, researchers can use it to identify movement/ location of known individuals as well as identify and start tracking previously unknown individuals. More information on how FIT works can be found here: 
+- https://wildtrack.org/wp-content/uploads/2017/03/FIT-Infographic-for-AZA-dw-1.pdf
+- https://wildtrack.org/how-fit-works/
 
-### 1.1 Problem 
+
+
+### 1.1 Project Goals
+At the outset, the goals of this project were two-fold:
+1. To identify and analyze WIldTrack's current paint points, exploring potential solutions.
+2. After narrowing down to a valuable first set of opportunities to go after, implement an end-to-end proof of concept that addresses those opportunities. 
+
+### 1.2 WildTrack current pain points and opportunities
 For a variety of reasons, raw images of footprints collected in the field still need a fair amount of processing before they are ready to be analyzed, which requires human labor. Furthermore, location of new trails and/ or areas to capture new footprint images is a very manual exercise. These are the main impediments to timely processing and analysis of animal tracks in support of use cases that mitigate human wildlife conflicts and prevent illegal poaching.
-### 1.2 Approach 
+### 1.3 Approach 
 This project uses state of the art Deep Learning techniques (specifically employing Convolutional Neural Networks)  for image detection and identification to improve the speed and efficiency of the current workflow to collect, pre-process and analyze footprints using FIT. We outline these methods and select the most adequate model to be utilized at the edge, fulfilling requirements to be on-boarded on a portable device and/or drone for inference in real time. We also explore how wide range images captured via drones can be used to further improve the efficacy of Wildlife Tracking.  
 
 Finally, we propose a practical implementation of an end to end solution using these methods on an edge device to collect and capture data saved in the cloud for further processing and model improvement.  
