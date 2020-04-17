@@ -79,12 +79,12 @@ Display footprint and information on map
 ## 7. Appendix. 
 ### 7.1 Note from WildTrack Founders  
 ![](zoe_sky.jpg)  
-Zoë Jewell M.A., M.Sc., Vet. M.B., M.R.C.V.S  
-Sky Alibhai D.Phil.
+Zoë Jewell *M.A., M.Sc., Vet. M.B., M.R.C.V.S*  
+Sky Alibhai *D.Phil.*  
+*Principal Research Associates, JMP software, SAS Institute*  
+*Adjunct Faculty, Nicholas School of the Environment, Duke University*  
+*Research Associates, University of Technology, Sydney.*  
 
-Principal Research Associates, JMP software, SAS Institute
-Adjunct Faculty, Nicholas School of the Environment, Duke University
-Research Associates, University of Technology, Sydney.
 WildTrack’s mission is to protect endangered species using non-invasive technologies. Our footprint identification technique (FIT) gives us high accuracy in classifying at the species and individual levels, but requires domain expertise to identify good data, and is labour-intensive.  As such, we struggle to process the increasing volumes of data required to mitigate species loss.
 
 We presented Darragh Hanley’s research group with a huge challenge: To introduce automated classification into our system. Footprint images offer several unique AI challenges, for example, the background and object of interest (footprint impression) are effectively the same colour/texture and there are no clear boundaries between them. Also, many different variables impact on the footprint quality, resulting in considerable variation between each footprint made by an individual animal.  We presented the team with two different challenges; one was to identify species and the other, to identify individuals from footprint images. In both cases, they came up with very impressive levels of accuracy.
