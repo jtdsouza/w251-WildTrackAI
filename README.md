@@ -39,7 +39,7 @@ Finally, we propose a practical implementation of an end to end solution using t
 
 
 ## 2. Overall Solution Architecture
-The high level solution architecture for this project is depicted in FIgure 2.   
+The high level solution approach for this project is depicted in FIgure 2.   
 ![](solution_arch.png)  
 *Figure 2. Solution Approach at a glance*    
 The solution has the following key components:
@@ -57,9 +57,17 @@ The solution has the following key components:
 - What we tried, why we didn't use it 
 
 ## 4. Model Development (Jonathan & Bona)
+Based on initial research, we decided to start on the SPecies Classification task by experimenting with common computer vision models pretraind on Imagenet. The intent was to use Species classification to establish a baseline of knowledge on the data set, current state of the art and relative model performance. The modeling approach arrived at here would then be used as the basis for Individual Identification.
 ### 4.1 Species Classification
+After some research an experimentation on the pre-trained models in the Keras applications library (VGG family, Resnet, Inception, Xception, Mobilenet, Densenet), we shortlisted VGG16, Mobilenetv2 and Xception for more exhaustive hyperparameter tuning and comparative study.    
 #### 4.1.1 Model Evaluation & COmparison (Bona)
-### 4.2 Individual Identification
+
+#### 4.1.2 Final Results for Species Classification (Bona)
+![](species_classification_tsne.png)  
+### 4.2 Individual Identification (Jonathan)
+#### 4.2.1 Triplets Network Architecture
+#### 4.2.2 Training Results
+
 ### 4.3 Additional Expliration (Jacques & Mike)
 While not implemented as part of this project scope, technqiues for identification of trails and footprints in wider range images were explored as decribed below.  
 
