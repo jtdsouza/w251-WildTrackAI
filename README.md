@@ -59,14 +59,41 @@ The solution has the following key components:
 ## 4. Model Development (Jonathan & Bona)
 Based on initial research, we decided to start on the SPecies Classification task by experimenting with common computer vision models pretraind on Imagenet. The intent was to use Species classification to establish a baseline of knowledge on the data set, current state of the art and relative model performance. The modeling approach arrived at here would then be used as the basis for Individual Identification.
 ### 4.1 Species Classification
-After some research an experimentation on the pre-trained models in the Keras applications library (VGG family, Resnet, Inception, Xception, Mobilenet, Densenet), we shortlisted VGG16, Mobilenetv2 and Xception for more exhaustive hyperparameter tuning and comparative study.    
+We approached species classification as a straightforward image classification task i.e. given an image of a footprint, the model predicts it being one of 11 (in the case of the set of species this project focused on) classes. After some research an experimentation on the pre-trained models in the Keras applications library (VGG family, Resnet, Inception, Xception, Mobilenet, Densenet), we shortlisted VGG16, Mobilenetv2 and Xception for more exhaustive hyperparameter tuning and comparative study.    
 #### 4.1.1 Model Evaluation & COmparison (Bona)
 
 #### 4.1.2 Final Results for Species Classification (Bona)
 ![](species_classification_TSNE.png)  
 ### 4.2 Individual Identification (Jonathan)
-#### 4.2.1 Triplets Network Architecture
-#### 4.2.2 Training Results
+Much of the work we did for Individual Identification was inspired by current state of the art techniques in Facial Recognition. Given a footprint, the identification task requires a way to match the footprint to  a set of reference footprints of known individuals. 
+There are a few core concepts from facial recognition that we found applicable in this space:  
+1. Embedding Vectors : The net result of modeling a footprint is to apply dimensionality reduction to the footprint image and generate a lower dimensional vector for each image such that vectors for footprints of the same individual are "closer together" using a consistent distance metric (example: euclidean distance or cosine similarity) than vectors of footprints of different individuals. We term these vectors "Footprint Embeddings". Identification of an individual is then about finding a reference footprint embedding closest to the one we are trying to identify.    
+2. Contrastive Loss Functions: Unlike typical loss functions that evaluate the performance of a model for each input in a data set, contrastive loss functions evaluate the peformance of a model across a set (2 or 3 in the scenarios descibed next) of inputs at a time. The intent is to penalize the model for predicting embedding vectors for the same individual that are farther apart and conversely, predicting embedding vectors for different individuals that are closer together.  
+
+#### 4.2.1 Siamese Network Architecture (Bona)
+<describe approach and findings>
+A Siamese network is an architecture with two parallel neural networks, each taking a different input, and whose outputs are combined to provide some prediction.
+
+#### 4.2.2 Triplets Loss Approach (Jonathan)
+Introduced by Schroldd et al (Google - 2015), this approach creates triplets of input images: an anchor image, one positive (or matching) image (same individual), and one negative (non-matching) example (different individual). 
+
+![](triplet-loss.png) 
+
+The loss function penalizes the model such that the model learns to reduce the distance between matching examples and increase the distance between non-matching examples.  
+The result is a footprint embedding for each image such that images of footprints of the same individual  produce images that have a smaller distances (can be clustered together) to allow verification and discrimination from other individuals. 
+
+#### 4.2.2 Training Experimentation and Results (Jonathan)
+We started with the model pretrained on the species classification task and then fine tuned it distinctly for each species using the Triplets Approach. 
+We had to tune hyperparameters differently for each species. FInal results are depicted in Table 2.  
+
+| Species      | Accuracy | Species          | Accuracy |
+|--------------|----------|------------------|----------|
+| African Lion | 85.71%   | African Elephant | 86.67%   |
+| Amur Tiger   | 63.36%   | Bongo            | 78.94%   |
+| Bengal Tiger | 75%      | Lowland Tapir    | 83.33%   |
+| Cheetah      | 100%     | White Rhino      | 100%     |
+| Leopard      | 71.43%   | Black Rhino      | 100%     |
+| Puma         | 81.48%   |                  |          |
 
 ### 4.3 Additional Expliration (Jacques & Mike)
 While not implemented as part of this project scope, technqiues for identification of trails and footprints in wider range images were explored as decribed below.  
@@ -119,3 +146,6 @@ We have decades of experience working with footprints, and in the last 20 years 
 
 ### 7.2 Implementation and Setup Details. 
 ### 7.3  References
+https://www.cs.cmu.edu/~rsalakhu/papers/oneshot1.pdf
+FaceNet: A Unified Embedding for Face Recognition and CLustering, Florian Schroff, et al. Google (2015) https://www.cv-foundation.org/openaccess/content_cvpr_2015/html/
+
