@@ -14,17 +14,24 @@ Finally, we propose a practical implementation of an end to end solution using t
 - **Phase 2**: Individual Identification
 - **Phase 3**: Footprint Detection
 
-## 2. Data Cleansing
+## 2. Overall Solution Architecture
+
+## 3. Data Set and Processing
+## 3.1 Base Images
 Crop images and separate into test and train
+## 3.2 Image Augmentation 
 
-## 3. Modeling
-3.1 Create model for species and individual ID classification  
-3.2 Evaluate models: number of parameters, size, accuracy (Bona)  
-3.3 Come up with final model  
+## 4. Model Development
+### 4.1 Species Classification
+#### 4.1.1 Model Evaluation & COmparison (Bona)
+### 4.2 Individual Identification
+### 4.3 Trail Identification
+### 4.4 Footprint Detection. 
 
-## 4. Pipeline (Mike)
-### 4.1 Flowchart
-### 4.2 Components
+
+## 5. Pipeline (Mike)
+### 5.1 Flowchart
+### 5.2 Components
 1. Cloud Training
 2. Edge Inference
 3. Edge Broker
@@ -34,14 +41,11 @@ Crop images and separate into test and train
 7. Storage
 8. Image Database
 9. Front End Application
-### 4.3 Front End (Dan, Jacques)
+### 5.3 Front End (Dan, Jacques)
 Geo tagging, meta data
 Html file
 Display footprint and information on map
 
-## 5. Other: 
-### 5.1 Augmentation (Dan)
-### 5.2 Object detection (Mike, Tina)
 
 ## 6. Future Steps (Everyone)
 - **Object Detection**: The team sees a real opportunity to streamline the image collection and inference process by implementing an object detection system whereby the model could detect footprints from images or videos taken from a further distance vs. closeup images taken at a very specific orientation. Subsequently, we envision an implementation similar to YOLO whereby the model could perform classification in realtime through the camera of a mobile device applying an object detection algorithm. 
@@ -49,3 +53,7 @@ Display footprint and information on map
 - Model Enhancement
 - Productionalization
 - Real-time Image Augmentation
+
+## 7. Appendix. 
+### 7.1 Implementation and Setup Details. 
+### 7.2  References
