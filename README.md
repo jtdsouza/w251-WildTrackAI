@@ -2,7 +2,7 @@
 Footprint Identification for Wildlife Monitoring
 
 ## 1. Introduction  
-![](WildTrack-Logo.jpg)  
+![](WildTrack-Logo.png)  
 WildTrack (https://wildtrack.org/) is a non-profit organization whose mission is to protect endangered species via non-invasive and cost-effective monitoring using footprints.   
 Traditional wildlife monitoring techniques rely on fitting of instrumentation to an animal (transmitter on a collar, tag, insert), marking, capture or close visual observation, which have shown to have counterproductive effects on conservation efforts. WildTrack was founded on the premise that monitoring could be made safer and more efficient using non-invasive techniques based on the timehonored tradition of trail and footprint tracking used by indigenous trackers.  
 At the heart of WildTrack's methodology is a specialized software FIT (Footprint Identification Technnology) based on SAS JMP technology. FIT maintains a  database for animals of various species being tracked, creating a unique profile for each individual based on morphometrics of the footprints. Once set up, researchers can use it to identify movement/ location of known individuals as well as identify and start tracking previously unknown individuals. More information on how FIT works can be found here: 
@@ -48,17 +48,23 @@ The solution has the following key components:
 3. Cloud Database and sample web application:  A central aggregator for footprints and associated metadata being captured on various edge devices, with a webfront end to manage and view.  
 
 
-## 3. Data Set and Processing
-## 3.1 Base Images
-Crop images and separate into test and train
-## 3.2 Image Augmentation 
+## 3. Data Set and Processing (DAN)
+### 3.1 Base Images
+- Key stats (total images and breakdown by species/ individual) with examples showing diverse substrate/ print types
+- Crop images (incl examples of raw and cropped)
+- Separate into test and train (90-10)
+### 3.2 Image Augmentation 
+- What we tried, why we didn't use it 
 
-## 4. Model Development
+## 4. Model Development (Jonathan & Bona)
 ### 4.1 Species Classification
 #### 4.1.1 Model Evaluation & COmparison (Bona)
 ### 4.2 Individual Identification
-### 4.3 Trail Identification
-### 4.4 Footprint Detection. 
+### 4.3 Additional Expliration (Jacques & Mike)
+While not implemented as part of this project scope, technqiues for identification of trails and footprints in wider range images were explored as decribed below.  
+
+#### 4.3.1 Trail Identification (Jacques)
+#### 4.4 Footprint Detection (Mike)
 
 
 ## 5. Pipeline (Mike)
