@@ -63,7 +63,7 @@ After some research an experimentation on the pre-trained models in the Keras ap
 #### 4.1.1 Model Evaluation & COmparison (Bona)
 
 #### 4.1.2 Final Results for Species Classification (Bona)
-![](species_classification_tsne.png)  
+![](species_classification_TSNE.png)  
 ### 4.2 Individual Identification (Jonathan)
 #### 4.2.1 Triplets Network Architecture
 #### 4.2.2 Training Results
