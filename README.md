@@ -26,8 +26,10 @@ The founders of WildTrack are motivated to see this project apply AI techniques 
 The proposed approach is to target an ideal solution, recognizing that it is likely beyond the scope of the first this project, but identify an initial project scope from within that solution that has value on its own, while serving as a basis for further work.  
 
 #### 1.3.1 Ideal Solution
-The ideal solution is real time identification and tracking  of wildlife by species and individual. Real time implies processing of images taken from a drone/ phone/ other camera as they are captured, with positive identification data being collected and organized centrally. It is dependent on the process being fully automated: i.e. being able to take on all the identification (species, individual) tasks that FIT does today without requiring any manual intervention (example: measurements, landmark identification, etc).
+The ideal solution (depicted in Figure 1) is real time identification and tracking  of wildlife by species and individual. Real time implies processing of images taken from a drone/ phone/ other camera as they are captured, with positive identification data being collected and organized centrally. It is dependent on the process being fully automated: i.e. being able to take on all the identification (species, individual) tasks that FIT does today without requiring any manual intervention (example: measurements, landmark identification, etc).  
+
 ![](ideal_solution.png)
+*Figure 1: Ideal State*
 
 
 #### 1.3.2 Project Scope
@@ -37,6 +39,14 @@ Finally, we propose a practical implementation of an end to end solution using t
 
 
 ## 2. Overall Solution Architecture
+The high level solution architecture for this project is depicted in FIgure 2.   
+![](solution_arch.png)  
+*Figure 2. Solution Approach at a glance*    
+The solution has the following key components:
+1. Model Training: Models for Species Classification and Individual Identification, trained in the cloud. 
+2. Inference on the Edge: The models above are deployable on an edge device (in our case, the Jetson TX2) to run inference on captured images and detect species first and then identify a specific individual within that species.  
+3. Cloud Database and sample web application:  A central aggregator for footprints and associated metadata being captured on various edge devices, with a webfront end to manage and view.  
+
 
 ## 3. Data Set and Processing
 ## 3.1 Base Images
