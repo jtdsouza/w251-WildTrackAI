@@ -65,8 +65,11 @@ After some research an experimentation on the pre-trained models in the Keras ap
 #### 4.1.2 Final Results for Species Classification (Bona)
 ![](species_classification_tsne.png)  
 ### 4.2 Individual Identification (Jonathan)
-#### 4.2.1 Triplets Network Architecture
-#### 4.2.2 Training Results
+#### 4.2.1 Siamese Network Architecture (Bona)
+describe approach and findings
+#### 4.2.2 Triplets Network Architecture (Jonathan)
+
+#### 4.2.2 Training Results (Jonathan)
 
 ### 4.3 Additional Expliration (Jacques & Mike)
 While not implemented as part of this project scope, technqiues for identification of trails and footprints in wider range images were explored as decribed below.  
