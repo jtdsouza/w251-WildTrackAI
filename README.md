@@ -17,14 +17,24 @@ At the outset, the goals of this project were two-fold:
 2. After narrowing down to a valuable first set of opportunities to go after, implement an end-to-end proof of concept that addresses those opportunities. 
 
 ### 1.2 WildTrack current pain points and opportunities
-For a variety of reasons, raw images of footprints collected in the field still need a fair amount of processing before they are ready to be analyzed, which requires human labor. Furthermore, location of new trails and/ or areas to capture new footprint images is a very manual exercise. These are the main impediments to timely processing and analysis of animal tracks in support of use cases that mitigate human wildlife conflicts and prevent illegal poaching.
-### 1.3 Approach 
-This project uses state of the art Deep Learning techniques (specifically employing Convolutional Neural Networks)  for image detection and identification to improve the speed and efficiency of the current workflow to collect, pre-process and analyze footprints using FIT. We outline these methods and select the most adequate model to be utilized at the edge, fulfilling requirements to be on-boarded on a portable device and/or drone for inference in real time. We also explore how wide range images captured via drones can be used to further improve the efficacy of Wildlife Tracking.  
+This project focused on two main avenues in the overall WildTrack FIT workflow:
+1. **Location of Trails:** Location of new trails and/ or areas to capture new footprint images is a highly  manual exercise involving classic geographic exploration techniques. More recently, Wildtrack has been experimenting with the use of fixed-wing drones for aerial image capture, but identifying trails on the images that these drones generate is still a manual , and unreliable process. 
+2. **Pre-processing and profiling of footprints:** For a variety of reasons, raw images of footprints collected in the field still need a fair amount of processing before they are ready to be analyzed by FIT, which requires human labor.  The images need to be well formed and oriented in a certain way, and specific points (called landmarks) on the footprint need to be identified and measured in FIT before they can be used for downstream identification tasks. All in all, settting up FIT for a new area/preserve can take around 2 months per species. 
+The founders of WildTrack are motivated to see this project apply AI techniques to help streamline the processes and activities listed above.  
+
+### 1.3 Proposed Approach 
+The proposed approach is to target an ideal solution, recognizing that it is likely beyond the scope of the first this project, but identify an initial project scope from within that solution that has value on its own, while serving as a basis for further work.  
+
+#### 1.3.1 Ideal Solution
+The ideal solution is real time identification and tracking  of wildlife by species and individual. Real time implies processing of images taken from a drone/ phone/ other camera as they are captured, with positive identification data being collected and organized centrally. It is dependent on the process being fully automated: i.e. being able to take on all the identification (species, individual) tasks that FIT does today without requiring any manual intervention (example: measurements, landmark identification, etc).
+![](ideal_solution.png)
+
+
+#### 1.3.2 Project Scope
+This project uses state of the art Deep Learning techniques (specifically employing Convolutional Neural Networks)  for the Species CLassification and Individual Identification tasks desribed in the previous section. We outline these methods and select the most adequate model to be utilized at the edge, fulfilling requirements to be on-boarded on a portable device and/or drone for inference in real time. We also explore how wide range images captured via drones can be used to further improve the efficacy of Wildlife Tracking.  
 
 Finally, we propose a practical implementation of an end to end solution using these methods on an edge device to collect and capture data saved in the cloud for further processing and model improvement.  
-- **Phase 1**: Footprint Classification
-- **Phase 2**: Individual Identification
-- **Phase 3**: Footprint Detection
+
 
 ## 2. Overall Solution Architecture
 
@@ -67,5 +77,21 @@ Display footprint and information on map
 - Real-time Image Augmentation
 
 ## 7. Appendix. 
-### 7.1 Implementation and Setup Details. 
-### 7.2  References
+### 7.1 Note from WildTrack Founders  
+![](zoe_sky.jpg)  
+Zoë Jewell M.A., M.Sc., Vet. M.B., M.R.C.V.S  
+Sky Alibhai D.Phil.
+
+Principal Research Associates, JMP software, SAS Institute
+Adjunct Faculty, Nicholas School of the Environment, Duke University
+Research Associates, University of Technology, Sydney.
+WildTrack’s mission is to protect endangered species using non-invasive technologies. Our footprint identification technique (FIT) gives us high accuracy in classifying at the species and individual levels, but requires domain expertise to identify good data, and is labour-intensive.  As such, we struggle to process the increasing volumes of data required to mitigate species loss.
+
+We presented Darragh Hanley’s research group with a huge challenge: To introduce automated classification into our system. Footprint images offer several unique AI challenges, for example, the background and object of interest (footprint impression) are effectively the same colour/texture and there are no clear boundaries between them. Also, many different variables impact on the footprint quality, resulting in considerable variation between each footprint made by an individual animal.  We presented the team with two different challenges; one was to identify species and the other, to identify individuals from footprint images. In both cases, they came up with very impressive levels of accuracy.
+
+We have decades of experience working with footprints, and in the last 20 years have collaborated with many different academic groups trying to automate elements of our FIT process. **This is the first group with whom real progress has been made!**  Not only do they clearly have very strong and complementary skills, but (refreshingly) they came in with no assumptions, consulted very thoroughly with us about what we hoped to achieve, and made the effort to understand our domain. They approached the problem from our perspective and have at each stage considered how the outputs will integrate to form a practical field-based solution. Their results, achieved in a relatively short period of time, are better than we could possibly have expected and far surpass those of any other team we have worked with.
+
+**Huge kudos go to this team!** We can’t praise their work highly enough and we’re excited to take this project forward together.
+
+### 7.2 Implementation and Setup Details. 
+### 7.3  References
