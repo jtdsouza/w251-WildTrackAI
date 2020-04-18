@@ -1,5 +1,5 @@
 # docker build -t mqttBrok .
-# docker run --name mqttBrok --network footprints -p 1883:1883 alpine
+# docker run --name mqttBrok --network footprints -p 1883:1883 mqttBrok
 
 FROM alpine
 
