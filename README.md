@@ -9,8 +9,6 @@ At the heart of WildTrack's methodology is a specialized software FIT (Footprint
 - https://wildtrack.org/wp-content/uploads/2017/03/FIT-Infographic-for-AZA-dw-1.pdf
 - https://wildtrack.org/how-fit-works/
 
-
-
 ### 1.1 Project Goals
 At the outset, the goals of this project were two-fold:
 1. To identify and analyze WIldTrack's current paint points, exploring potential solutions.
@@ -31,12 +29,10 @@ The ideal solution (depicted in Figure 1) is real time identification and tracki
 ![](ideal_solution.png)
 *Figure 1: Ideal State*
 
-
 #### 1.3.2 Project Scope
 This project uses state of the art Deep Learning techniques (specifically employing Convolutional Neural Networks)  for the Species Classification and Individual Identification tasks described in the previous section. We outline these methods and select the most adequate model to be utilized at the edge, fulfilling requirements to be on-boarded on a portable device and/or drone for inference in real time. We also explore how wide range images captured via drones can be used to further improve the efficacy of Wildlife Tracking.  
 
 Finally, we propose a practical implementation of an end to end solution using these methods on an edge device to collect and capture data saved in the cloud for further processing and model improvement.  
-
 
 ## 2. Overall Solution Architecture
 The high level solution approach for this project is depicted in Figure 2.   
@@ -45,17 +41,18 @@ The high level solution approach for this project is depicted in Figure 2.
 The solution has the following key components:
 1. Model Training: Models for Species Classification and Individual Identification, trained in the cloud.
 2. Inference on the Edge: The models above are deployable on an edge device (in our case, the Jetson TX2) to run inference on captured images and detect species first and then identify a specific individual within that species.  
-3. Cloud Database and sample web application:  A central aggregator for footprints and associated metadata being captured on various edge devices, with a web-front end to manage and view.  
-
+3. Cloud Database and sample web application:  A central aggregator for footprints and associated metadata being captured on various edge devices, with a web-front end to manage and view.
 
 ## 3. Data Set and Processing (DAN)
 ### 3.1 Base Images
 - Key stats (total images and breakdown by species/ individual) with examples showing diverse substrate/ print types
 - Crop images (incl examples of raw and cropped)
-  * Sample Raw & Cropped Images of Leopard Shakira
-|                 Raw Image                 |                 Cropped Image                 |
-|:-----------------------------------------:|:---------------------------------------------:|
-| ![](sample_raw_image_leopard_shakira.jpg) | ![](sample_cropped_image_leopard_shakira.jpg) |
+
+|                     Raw Image                    |                     Cropped Image                    |
+|:------------------------------------------------:|:----------------------------------------------------:|
+| <img src="sample_raw_image_leopard_shakira.jpg"> | <img src="sample_cropped_image_leopard_shakira.jpg"> |
+
+*Figure 3: Sample Raw & Cropped Images of Leopard Shakira*
 
 - Separate into test and train (90-10)
 ### 3.2 Image Augmentation
@@ -63,22 +60,26 @@ The solution has the following key components:
 
 ## 4. Model Development (Jonathan & Bona)
 Based on initial research, we decided to start on the Species Classification task by experimenting with common computer vision models pretraind on Imagenet. The intent was to use Species classification to establish a baseline of knowledge on the data set, current state of the art and relative model performance. The modeling approach arrived at here would then be used as the basis for Individual Identification.
+
 ### 4.1 Species Classification
-We approached species classification as a straightforward image classification task i.e. given an image of a footprint, the model predicts it being one of 11 (in the case of the set of species this project focused on) classes. After some research an experimentation on the pretrained models in the Keras applications library (VGG family, Resnet, Inception, Xception, Mobilenet, Densenet), we shortlisted VGG16, Mobilenetv2 and Xception for more exhaustive hyperparameter tuning and comparative study.    
+We approached species classification as a straightforward image classification task i.e. given an image of a footprint, the model predicts it being one of 11 (in the case of the set of species this project focused on) classes. After some research an experimentation on the pretrained models in the Keras applications library (VGG family, Resnet, Inception, Xception, Mobilenet, Densenet), we shortlisted VGG16, Mobilenetv2 and Xception for more exhaustive hyperparameter tuning and comparative study.
+
 #### 4.1.1 Model Evaluation & Comparison (Bona)
-We then enhanced the models for the three shortlisted pre-trained models mentioned above and evaluated the models based on the test dataset of 204 footprint images using an accuracy as a key performance index of the models in additional to the number of parameters in each model. Detailed information on the models can be found below:
-* Model Comparison of 3 Pre-trained Models
-  - Table to be added later - Needs to update the content after new species addition
+We enhanced the models for the three shortlisted pretrained models mentioned above by tweaking the depth of the model and various hyperparameter values such as loss function and optimizer. We then evaluated the models based on the test dataset of 204 footprint images using an accuracy as key performance index of the models in addition to the number of parameters in each model. Detailed information on the models can be found below.
+
+![](species_classification_model_comparison.png)
+*Figure 4: Model Comparison of 3 Pretrained Models*
+
+As shown in the table, although Xception yielded the highest accuracy, VGG16 was chosen as the final model as the difference in the accuracies between VGG16 and Xception is significantly small compared to the difference in the number of model parameters.
 
 #### 4.1.2 Final Results for Species Classification (Bona)
-* Accuracy Breakdown by Accuracy
-  - Table to be added later - Needs to update the content after new species addition
+We looked further into the details of the final model to observe how the model performs in each class of species.
 
-* Confusion Matrix
-  - Table to be added later - Needs to update the content after new species addition
+We used t-Distributed Stochastic Neighbor Embedding(t-SNE), a dimensionality reduction technique used to represent high-dimensional dataset in a low-dimensional space of two or three dimensions, to visualize the dataset by species. As shown in *Figure 5*, the data points of the same species tend to cluster together. If the graph is looked at more closely, Leopard and White Rhino have a few data points that lie with other species, which explain their lower accuracies compared to those of other species.
 
 ![](species_classification_TSNE.png)
-*Figure 6. Species Classification Visualization Using t-SNE(t-distributed stochastic neighbor embedding)*
+*Figure 5. Species Classification Visualization Using t-SNE*
+
 ### 4.2 Individual Identification (Jonathan)
 Much of the work we did for Individual Identification was inspired by current state of the art techniques in Facial Recognition. Given a footprint, the identification task requires a way to match the footprint to  a set of reference footprints of known individuals.
 There are a few core concepts from facial recognition that we found applicable in this space:  
@@ -132,15 +133,15 @@ While not implemented as a part of this project scope, techniques for identifica
 
 ### 5.3 Front End (Dan, Jacques)
 
-Footprints have inherent characteristics that are temporal and spatial in nature. That is to say, the footprint impression was made at a particular time and at specific coordinates in space. One can imagine a research use-case for tracking the seasonal grazing and roaming patterns of a species. Here we consider the urgency in knowing the number and location of an endangered species for the purpose of conservation. Tagging footprint images with metadata reflecting time and location provide information relevant to a variety of interests and use-cases. 
+Footprints have inherent characteristics that are temporal and spatial in nature. That is to say, the footprint impression was made at a particular time and at specific coordinates in space. One can imagine a research use-case for tracking the seasonal grazing and roaming patterns of a species. Here we consider the urgency in knowing the number and location of an endangered species for the purpose of conservation. Tagging footprint images with metadata reflecting time and location provide information relevant to a variety of interests and use-cases.
 
 Because of the geospatial features and WildTrack’s mission to non-invasively monitor species movement in locations of interest, we believe including a map as an interface element creates value. The tools commonly used to track footprints include digital cameras, camera-enabled smartphones, and drones supporting high resolution cameras as payload. Many of these tools embed time stamp and location information as metadata in the image file. The drone community commonly utilizes map-based tools for mission planning and assessment. Smartphone photo applications include features for visualizing where a photo was taken on a map. Photos are sequenced based on time as a default visualization setting in both of these uses.
 
 In production, we would seek to leverage time and location metadata read directly from the image file as a component in our pipeline. For the purpose of demonstration, we picked a location familiar to the WildTrack organization and randomly assigned geo coordinates to the image files. As an issue of importance, we are sensitive to the privacy concerns associated with geotagging animals - particularly endangered species. As an unintended consequence of the tracking technology, poachers would also profit from information produced in this application. We see it as ethical and critical to implement security and authentication as components in a production process.
 
-For the purpose of rapidly prototyping a “minimum viable product” that demonstrates front end user capabilities, we employed the highly accessible utility of a web-based application. We integrated a handful of high level application programming interfaces (API) to build a demo-worthy tool. The map is based on an open source JavaScript library called Leaflet. Leaflet retrieves tiled web maps from a collaborative mapping project called OpenStreetMaps. 
+For the purpose of rapidly prototyping a “minimum viable product” that demonstrates front end user capabilities, we employed the highly accessible utility of a web-based application. We integrated a handful of high level application programming interfaces (API) to build a demo-worthy tool. The map is based on an open source JavaScript library called Leaflet. Leaflet retrieves tiled web maps from a collaborative mapping project called OpenStreetMaps.
 
-For data input, Leaflet supports an open data standard called GeoJSON. JavaScript Object Notation (JSON) is a popular and lightweight data representation standard. GeoJSON is a JSON subset. As the name suggests, GeoJSON supports the representation of geospatial entities such as geotagged images. Like many map utilities, Leaflet has as a feature in its API the ability to directly read data from a GeoJSON file. Leaflet facilities presenting the geospatial entities as icons on the map. 
+For data input, Leaflet supports an open data standard called GeoJSON. JavaScript Object Notation (JSON) is a popular and lightweight data representation standard. GeoJSON is a JSON subset. As the name suggests, GeoJSON supports the representation of geospatial entities such as geotagged images. Like many map utilities, Leaflet has as a feature in its API the ability to directly read data from a GeoJSON file. Leaflet facilities presenting the geospatial entities as icons on the map.
 
 GeoJSON is extensible in the sense that user-defined properties can be added. Due to the specialized nature of our application, we added properties specific to our task such as the predicted species, the name of the individual, the confidence of the prediction, the sex of the known individual if available, and a link for the footprint image file used to make the prediction. The leaflet API also has the capability to easily create tooltips for icons added to the map interface. We leveraged these tooltips to present a selection of the properties from the GeoJSON to the user.
 
