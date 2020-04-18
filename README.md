@@ -129,11 +129,20 @@ While not implemented as a part of this project scope, techniques for identifica
 7. Storage
 8. Image Database
 9. Front End Application
-### 5.3 Front End (Dan, Jacques)
-Geo tagging, meta data
-Html file
-Display footprint and information on map
 
+### 5.3 Front End (Dan, Jacques)
+
+Footprints have inherent characteristics that are temporal and spatial in nature. That is to say, the footprint impression was made at a particular time and at specific coordinates in space. One can imagine a research use-case for tracking the seasonal grazing and roaming patterns of a species. Here we consider the urgency in knowing the number and location of an endangered species for the purpose of conservation. Tagging footprint images with metadata reflecting time and location provide information relevant to a variety of interests and use-cases. 
+
+Because of the geospatial features and WildTrack’s mission to non-invasively monitor species movement in locations of interest, we believe including a map as an interface element creates value. The tools commonly used to track footprints include digital cameras, camera-enabled smartphones, and drones supporting high resolution cameras as payload. Many of these tools embed time stamp and location information as metadata in the image file. The drone community commonly utilizes map-based tools for mission planning and assessment. Smartphone photo applications include features for visualizing where a photo was taken on a map. Photos are sequenced based on time as a default visualization setting in both of these uses.
+
+In production, we would seek to leverage time and location metadata read directly from the image file as a component in our pipeline. For the purpose of demonstration, we picked a location familiar to the WildTrack organization and randomly assigned geo coordinates to the image files. As an issue of importance, we are sensitive to the privacy concerns associated with geotagging animals - particularly endangered species. As an unintended consequence of the tracking technology, poachers would also profit from information produced in this application. We see it as ethical and critical to implement security and authentication as components in a production process.
+
+For the purpose of rapidly prototyping a “minimum viable product” that demonstrates front end user capabilities, we employed the highly accessible utility of a web-based application. We integrated a handful of high level application programming interfaces (API) to build a demo-worthy tool. The map is based on an open source JavaScript library called Leaflet. Leaflet retrieves tiled web maps from a collaborative mapping project called OpenStreetMaps. 
+
+For data input, Leaflet supports an open data standard called GeoJSON. JavaScript Object Notation (JSON) is a popular and lightweight data representation standard. GeoJSON is a JSON subset. As the name suggests, GeoJSON supports the representation of geospatial entities such as geotagged images. Like many map utilities, Leaflet has as a feature in its API the ability to directly read data from a GeoJSON file. Leaflet facilities presenting the geospatial entities as icons on the map. 
+
+GeoJSON is extensible in the sense that user-defined properties can be added. Due to the specialized nature of our application, we added properties specific to our task such as the predicted species, the name of the individual, the confidence of the prediction, the sex of the known individual if available, and a link for the footprint image file used to make the prediction. The leaflet API also has the capability to easily create tooltips for icons added to the map interface. We leveraged these tooltips to present a selection of the properties from the GeoJSON to the user.
 
 ## 6. Future Steps (Everyone)
 - **Object Detection**: The team sees a real opportunity to streamline the image collection and inference process by implementing an object detection system whereby the model could detect footprints from images or videos taken from a further distance vs. closeup images taken at a very specific orientation. Subsequently, we envision an implementation similar to YOLO whereby the model could perform classification in realtime through the camera of a mobile device applying an object detection algorithm.
