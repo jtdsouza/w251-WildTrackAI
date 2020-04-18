@@ -87,7 +87,7 @@ There are a few core concepts from facial recognition that we found applicable i
 2. Contrastive Loss Functions: Unlike typical loss functions that evaluate the performance of a model for each input in a data set, contrastive loss functions evaluate the performance of a model across a set (2 or 3 in the scenarios described next) of inputs at a time. The intent is to penalize the model for predicting embedding vectors for the same individual that are farther apart and conversely, predicting embedding vectors for different individuals that are closer together.  
 
 #### 4.2.1 Siamese Network Architecture (Bona)
-<describe approach and findings>
+Work in progress
 A Siamese network is an architecture with two parallel neural networks, each taking a different input, and whose outputs are combined to provide some prediction.
 
 #### 4.2.2 Triplets Loss Approach (Jonathan)
@@ -102,14 +102,7 @@ The result is a footprint embedding for each image such that images of footprint
 We started with the model pretrained on the species classification task and then fine tuned it distinctly for each species using the Triplets Approach.
 We had to tune hyperparameters differently for each species. Final results are depicted in Table 2.  
 
-| Species      | Accuracy | Species          | Accuracy |
-|--------------|----------|------------------|----------|
-| African Lion | 85.71%   | African Elephant | 86.67%   |
-| Amur Tiger   | 63.36%   | Bongo            | 78.94%   |
-| Bengal Tiger | 75%      | Lowland Tapir    | 83.33%   |
-| Cheetah      | 100%     | White Rhino      | 100%     |
-| Leopard      | 71.43%   | Black Rhino      | 100%     |
-| Puma         | 81.48%   |                  |          |
+![](individual_identification_triplets_model_performance.png)
 
 ### 4.3 Additional Exploration (Jacques & Mike)
 While not implemented as a part of this project scope, techniques for identification of trails and footprints in wider range images were explored as decribed below.  
