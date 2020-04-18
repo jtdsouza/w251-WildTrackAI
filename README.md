@@ -114,15 +114,18 @@ While not implemented as a part of this project scope, techniques for identifica
 ## 5. Pipeline (Mike)
 ### 5.1 Flowchart
 ### 5.2 Components
-1. Cloud Training
-2. Edge Inference
-3. Edge Broker
-4. Edge Forwarder
-5. Cloud Broker
-6. Cloud Receiver
-7. Storage
-8. Image Database
-9. Front End Application
+
+The following describes the key components of the pipeline and their functionality. Components 2 through 6 below are “containerized” through Docker to facilitate implementation, and Docker networks are created both on the edge devices and in the cloud to handle communication between the different containers. The pipeline utilizes Eclipse Mosquitto (MQTT) to transfer classified images and their respective attributes using a publish/subscribe model described in more detail below. In the Mosquitto context, the images themselves are transferred as the message payload while the image attributes (date, time, species, individual, classification probability, geographic coordinates, etc.) are transferred via the message topic. Throughout the pipeline, the topic used to identify relevant messages is “WildAI/#” with the hashtag used to represent all subsequent attributes that are appended to the message topic.
+
+1. **Cloud Training**: Following the steps outlined in Section 4. Model Development, the model is trained in the cloud utilizing TensorFlow and Keras through Google Colab. Upon finalizing training, the resulting model weights are written to object storage where they can be accessed and loaded onto an edge device.
+2. **Edge Inference**: This container is the heaviest of the containerized pipeline (~11GB) as it requires CUDA to leverage the edge device’s GPU for improved performance as well as TensorFlow and Keras to perform inference. The container accepts new footprint images as the input, preprocesses the images, loads the models generated during the Cloud Training step, and classifies the images first by species and then by individual. Once classification is completed, the image is converted to a byte array and, along with its respective attributes, is published to the Edge Broker.
+3. **Edge Broker**: The Edge Broker is a very light container (<10MB) based on Alpine Linux. It simply runs Mosquitto to handle messages published from the Edge Inference container and subscribed to from the Edge Forwarder.
+4. **Edge Forwarder**: The Edge Forwarder is also an Alpine Linux container which runs Paho MQTT, a Python client library which implements the MQTT (Mosquitto) protocol. This container consists of two MQTT clients, one which subscribes to messages published to the Edge Broker on topic “WildAI/#” and one which immediately publishes (forwards) those messages to the Cloud Broker.
+5. **Cloud Broker**: Identical to the Edge Broker, the Cloud Broker handles messages published from the Edge Forwarder and subscribed to from the Cloud Receiver.
+6. **Cloud Receiver**: The Cloud Receiver subscribes to messages published to the Cloud Broker on the topic “WildAI/#”. As the messages were originally published by the Edge Inference container as a byte array, the Cloud Receiver is responsible for writing the message payloads to image files to object storage. The message topics containing the image attributes are written directly into the file name when saving.
+7. **Storage**: An S3 storage folder is mounted on the virtual server instance to temporarily house new images that are transferred through the pipeline. Note: this is the same S3 storage utilized to save the latest versions of the model weights.
+8. **Image Database**: Once new images are available, a user syncs them and parses their attributes from the file name to an image database for access by the front-end application.
+9. **Front End Application**: See Section 5.3.
 
 ### 5.3 Front End (Dan, Jacques)
 
