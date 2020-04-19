@@ -24,6 +24,11 @@ All dockerfiles and python scripts to perform inference and send messages are lo
 
 You will first need to create a local network which I called "footprints" for my implementation (docker network create --driver bridge footprints). Subsequently each of the containers you create should reference this network in the docker run scripts. All docker run scripts (with the exception of the local broker) are set to run in interactive mode and connect to the appropriate working directory (-w) automatically to run the python scripts. So once you've launched the container, you should be able to just to type python3 and the name of the python script.
 
+## Instructions for the database
+
+The database structure is as follow:
+
+![](Images/database.png)
 
 Previous Instructions
 ----
