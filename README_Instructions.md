@@ -40,38 +40,13 @@ ALl the word done during model development is captured in these notebooks (in th
 `docker run -it --name vsi_mqtt_receiver --network cloud-wildtrack-ai -v /mnt/wildtrack-ai/new-files:/mnt/wildtrack-ai/new-files -v /w251-WildTrackAI/vsiMqttRec:/app -w /app edge_mqtt_forwarder`
 
 ## Instructions for Running Inference
-- **Step 1:** From the VSI
-- **Step 2:** 
-- **Step 3:** 
+The container setup for both the edge device and the cloud designates interactive (-it) mode and the appropriate volumes (-v) working directories (-w) are established in the docker run scripts. Therefore, all that is left to do is call the python scripts associated with the VSI Receiver (vsi_receiver.py), Edge Forwarder (run.py), and Edge Inference(predict.py) containers from the command line and in that order.  
+`python3 vsi_receiver.py`  
+`python3 run.py`  
+`python3 predict.py`
 
 ## Instructions for the database
 
 The database structure is as follow:
 
 ![](Images/database.png)
-
-Previous Instructions
-----
-Build container from Docker file:  
-*sudo docker build -t wildai_intake -f Dockerfile.tx2-4.3_b132-py3 .*
-
-Run container in interactive mode:   
-
-*sudo docker run --privileged --rm --it --name wildtrack -v /data/WildAI:/WildAI -p 8888:8888 -d wildai_intake*  
-
-Note that we are just mapping the local folder to the /WildAI folder on the container (not using S3 just yet).   
-
-To access shell for container:   
-*sudo docker attach wildtrack*   
-
-
-Or - to attach to container and correct working directory in one step
-
-*sudo docker run --privileged --rm --it --name wildtrack -v /data/WildAI:/WildAI -p 8888:8888 -w /WildAI wildai_intake*
-
-
-From command line in container, changed directory to /WildAI:  
-*cd /WildAI*  
-  
-Run script:    
-*python3 predict.py*
