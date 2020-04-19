@@ -117,7 +117,7 @@ This is a semantic segmentation task so after research and pointers from our pro
 The data labelling is always a bottleneck for segmentation task, so we will coordinate at an early stage with the WildTrack team to ensure we have usable data for the next phase.
 
 #### 4.4 Footprint Detection
-<img src="Images/Footprints.png" width="250" align="right">
+<img src="Images/Footprints.png" width="300" align="right">
 The team saw a real opportunity to streamline the image collection and inference process by implementing object detection. The logic was that the model would detect footprints out of larger images containing multiple footprints and taken from a further distance (up to 3 meters). This would reduce reliance on closeup images taken at a very specific orientation, while still being able to perform species (minimally) and individual (ideally) classification on each of the prints. Two key issues, however, limited this implementation. First, few images with multiple footprints currently exist which could be annotated and used to train a model. And second, to date WildTrack monitoring (image capture) has focused on just one of the four feet of the target animals for classification. Images with multiple footprints would most certainly include multiple feet which would limit the accuracy of the results.  
 <br/>
 <br/>
