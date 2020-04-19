@@ -13,10 +13,21 @@ ALl the word done during model development is captured in these notebooks (in th
 - Individal ID Model Training (Using Triples): WildAI_Individual_ID_Training.ipynb
 - Individual ID Model Evaluation: WildAI_IndividualID_Evaluation.ipynb  
 
-
-
-
 ## Instructions for running Inference on TX2
+- **Step 1:** Clone this Repository
+- **Step 2:** Download data and models to a local root directory on the TX2 called “WildAI”. These are all located in the following GDrive folder: https://drive.google.com/open?id=1srD-FnmRypFVtHqbn3vQSFDRgWDmJNkP. Note: It is important to preserve the subfolder structure (i.e. /WildAI/models; /WildAI/data).
+- **Step 3:** Create a local network (i.e. "footprints") so that the edge-based docker containers can communicate.
+`docker network create --driver bridge footprints`
+- **Step 4:** Create docker image and launch Edge Inference container. The Dockerfile is located in the w251-WildTrackAI/edge_inference directory. Note: the docker image for this container is based on an image called w251/tensorrt:dev-tx2-4.3_b132 available on Docker Hub. This image takes a while to build, so allow 30-40 mins. The volume created (-v) will give you access to the predict.py script necessary to perform inference.
+`docker build -t edge_inference -f Dockerfile.dev-tx2-4.3_b132-py3 .`
+`docker run –privileged -it --name edge_inference --network footprints -v /w251-WildTrackAI/edgeInference:/app -w /app edge_inference`
+- **Step 5:** Create docker image and launch Edge Broker container. The Dockerfile is located in the w251-WildTrackAI/edgeMqttBrk directory. Note: upon running this container, Mosquitto will be launched automatically. 
+`docker build -t edge_mqtt_broker .`
+`docker run --name edge_mqtt_broker --network footprints -p 1883:1883 edge_mqtt_broker`
+- **Step 6:** Create docker image and launch Edge Forwarder container.  The Dockerfile is located in the w251-WildTrackAI/edgeMqttFor directory. The working directory (-w /app) command in the docker run script will launch the container directly into the appropriate directory to access the forwarding script, run.py. 
+`docker build -t edge_mqtt_forwarder .`
+`docker run -it --name edge_mqtt_forwarder --network footprints -v /w251-WildTrackAI/edgeMqttFor:/app -w /app edge_mqtt_forwarder`
+
 Download data and models to local drive on the TX2. These are all located in this GDrive folder: https://drive.google.com/open?id=1srD-FnmRypFVtHqbn3vQSFDRgWDmJNkP 
 It would be simplest to just download the entire folder (for example: to /data/WildAI/ on the TX2) and preserve the subfolder structure. There are some old files which have been archived in the archive folder - these are not needed to perform inference.
 
