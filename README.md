@@ -114,7 +114,7 @@ While not implemented as a part of this project scope, techniques for identifica
 ## 5. Pipeline (Mike)
 ### 5.1 Flowchart
 
-![](Pipeline Flowchart.png)
+![](Pipeline_Flowchart.png)
 
 ### 5.2 Components
 
