@@ -151,11 +151,19 @@ Because of the geospatial features and WildTrack’s mission to non-invasively m
 In production, we would seek to leverage time and location metadata read directly from the image file as a component in our pipeline. For the purpose of demonstration, we picked a location familiar to the WildTrack organization and randomly assigned geo coordinates to the image files. As an issue of importance, we are sensitive to the privacy concerns associated with geotagging animals - particularly endangered species. As an unintended consequence of the tracking technology, poachers would also profit from information produced in this application. We see it as ethical and critical to implement security and authentication as components in a production process.
 
 For the purpose of rapidly prototyping a “minimum viable product” that demonstrates front end user capabilities,  we employed the highly accessible utility of a web-based application and integrated a handful of high level application programming interfaces (API) to build a demo-worthy tool.
-We built a full stack application (Apache server, Mysql database and Php for the logic) that collects the output from the edge inference pipeline. Images are saved and all information is persisted in the database. The web app front end allows on one hand, for exploration within a table format, with additional functionalities to assign status to a record depending on the confidence level of the inference and other factors. We also created a map based on an open source JavaScript library called Leaflet. Leaflet retrieves tiled web maps from a collaborative mapping project called OpenStreetMaps.
+We built a full stack application (Apache server, Mysql database and Php for the logic) that collects the output from the edge inference pipeline. Images are saved and all information is persisted in the database. The web app front end allows on one hand, for exploration within a table format, with additional functionalities to assign status to a record depending on the confidence level of the inference and other factors.
+
+![](Images/webapp-table.png)
+
+We also created a map based on an open source JavaScript library called Leaflet. Leaflet retrieves tiled web maps from a collaborative mapping project called OpenStreetMaps.
 
 For data input, Leaflet supports an open data standard called GeoJSON. JavaScript Object Notation (JSON) is a popular and lightweight data representation standard. GeoJSON is a JSON subset. As the name suggests, GeoJSON supports the representation of geospatial entities such as geotagged images. Like many map utilities, Leaflet has as a feature in its API the ability to directly read data from a GeoJSON file. Leaflet facilities presenting the geospatial entities as icons on the map.
 
+![](Images/webapp-map.png)
+
 GeoJSON is extensible in the sense that user-defined properties can be added. Due to the specialized nature of our application, we added properties specific to our task such as the predicted species, the name of the individual, the confidence of the prediction, the sex of the known individual if available, and a link for the footprint image file used to make the prediction. The leaflet API also has the capability to easily create tooltips for icons added to the map interface. We leveraged these tooltips to present a selection of the properties from the GeoJSON to the user.
+
+![](Images/webapp-map-detail.png)
 
 ## 6. Future Steps (Everyone)
 - **Object Detection**: The team would like to implement an object detection system whereby the model could detect footprints from images or videos taken from a further distance vs. closeup images taken at a very specific orientation. Subsequently, we envision an implementation similar to YOLO whereby the model could perform classification in realtime through the camera of a mobile device applying an object detection algorithm. To achieve that, we would work on model enhancement by expanding training data via combination of augmentation and procurement of additional images that aren’t as well curated as our initial set (i.e. imperfect images).
