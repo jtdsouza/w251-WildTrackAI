@@ -40,7 +40,7 @@ ALl the word done during model development is captured in these notebooks (in th
 `docker run -it --name vsi_mqtt_receiver --network cloud-wildtrack-ai -v /mnt/wildtrack-ai/new-files:/mnt/wildtrack-ai/new-files -v /w251-WildTrackAI/vsiMqttRec:/app -w /app edge_mqtt_forwarder`
 
 ## Instructions for Running Inference
-The container setup for both the edge device and the cloud designates interactive (-it) mode and the appropriate volumes (-v) working directories (-w) are established in the docker run scripts. Therefore, all that is left to do is call the python scripts associated with the VSI Receiver (vsi_receiver.py), Edge Forwarder (run.py), and Edge Inference(predict.py) containers from the command line and in that order.  
+The container setup for both the edge device and the cloud designates interactive (-it) mode and the appropriate volumes (-v) and working directories (-w) are established in the docker run scripts. Therefore, all that is left to do is call the python scripts associated with the VSI Receiver (vsi_receiver.py), Edge Forwarder (run.py), and Edge Inference(predict.py) containers from the command line and in that order. Inference should take about 5 minutes to complete.
 `python3 vsi_receiver.py`  
 `python3 run.py`  
 `python3 predict.py`
