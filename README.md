@@ -2,7 +2,7 @@
 Footprint Identification for Wildlife Monitoring
 
 ## 1. Introduction  
-![](WildTrack-Logo.png)  
+![](Images/WildTrack-Logo.png)  
 WildTrack (https://wildtrack.org/) is a non-profit organization whose mission is to protect endangered species via non-invasive and cost-effective monitoring using footprints.   
 Traditional wildlife monitoring techniques rely on fitting of instrumentation to an animal (transmitter on a collar, tag, insert), marking, capture or close visual observation, which have shown to have counterproductive effects on conservation efforts. WildTrack was founded on the premise that monitoring could be made safer and more efficient using non-invasive techniques based on the time-honored tradition of trail and footprint tracking used by indigenous trackers.  
 At the heart of WildTrack's methodology is a specialized software FIT (Footprint Identification Technology) based on SAS JMP technology. FIT maintains a  database for animals of various species being tracked, creating a unique profile for each individual based on morphometrics of the footprints. Once set up, researchers can use it to identify movement/ location of known individuals as well as identify and start tracking previously unknown individuals. More information on how FIT works can be found here:
@@ -26,7 +26,7 @@ The proposed approach is to target an ideal solution, recognizing that it is lik
 #### 1.3.1 Ideal Solution
 The ideal solution (depicted in Figure 1) is real time identification and tracking  of wildlife by species and individual. Real time implies processing of images taken from a drone/ phone/ other camera as they are captured, with positive identification data being collected and organized centrally. It is dependent on the process being fully automated: i.e. being able to take on all the identification (species, individual) tasks that FIT does today without requiring any manual intervention (example: measurements, landmark identification, etc).  
 
-![](ideal_solution.png)
+![](Images/ideal_solution.png)
 *Figure 1: Ideal State*
 
 #### 1.3.2 Project Scope
@@ -36,7 +36,7 @@ Finally, we propose a practical implementation of an end to end solution using t
 
 ## 2. Overall Solution Architecture
 The high level solution approach for this project is depicted in Figure 2.   
-![](solution_arch.png)  
+![](Images/solution_arch.png)  
 *Figure 2. Solution Approach at a glance*    
 The solution has the following key components:
 1. Model Training: Models for Species Classification and Individual Identification, trained in the cloud.
@@ -50,7 +50,7 @@ The solution has the following key components:
 
 |                     Raw Image                    |                     Cropped Image                    |
 |:------------------------------------------------:|:----------------------------------------------------:|
-| <img src="sample_raw_image_leopard_shakira.jpg"> | <img src="sample_cropped_image_leopard_shakira.jpg"> |
+| <img src="Images/sample_raw_image_leopard_shakira.jpg"> | <img src="Images/sample_cropped_image_leopard_shakira.jpg"> |
 
 *Figure 3: Sample Raw & Cropped Images of Leopard Shakira*
 
@@ -67,7 +67,7 @@ We approached species classification as a straightforward image classification t
 #### 4.1.1 Model Evaluation & Comparison (Bona)
 We enhanced the models for the three shortlisted pretrained models mentioned above by tweaking the depth of the model and various hyperparameter values such as loss function and optimizer. We then evaluated the models based on the test dataset of 204 footprint images using an accuracy as key performance index of the models in addition to the number of parameters in each model. Detailed information on the models can be found below.
 
-![](species_classification_model_comparison.png)
+![](Images/species_classification_model_comparison.png)
 *Figure 4: Model Comparison of 3 Pretrained Models*
 
 As shown in the table, although Xception yielded the highest accuracy, VGG16 was chosen as the final model as the difference in the accuracies between VGG16 and Xception is significantly small compared to the difference in the number of model parameters.
@@ -77,7 +77,7 @@ We looked further into the details of the final model to observe how the model p
 
 We used t-Distributed Stochastic Neighbor Embedding(t-SNE), a dimensionality reduction technique used to represent high-dimensional dataset in a low-dimensional space of two or three dimensions, to visualize the dataset by species. As shown in *Figure 5*, the data points of the same species tend to cluster together. If the graph is looked at more closely, Leopard and White Rhino have a few data points that lie with other species, which explain their lower accuracies compared to those of other species.
 
-![](species_classification_TSNE.png)
+![](Images/species_classification_TSNE.png)
 *Figure 5. Species Classification Visualization Using t-SNE*
 
 ### 4.2 Individual Identification (Jonathan)
@@ -93,7 +93,7 @@ A Siamese network is an architecture with two parallel neural networks, each tak
 #### 4.2.2 Triplets Loss Approach (Jonathan)
 Introduced by Schroldd et al (Google - 2015), this approach creates triplets of input images: an anchor image, one positive (or matching) image (same individual), and one negative (non-matching) example (different individual).
 
-![](triplet-loss.png)
+![](Images/triplet-loss.png)
 
 The loss function penalizes the model such that the model learns to reduce the distance between matching examples and increase the distance between non-matching examples.  
 The result is a footprint embedding for each image such that images of footprints of the same individual  produce images that have a smaller distances (can be clustered together) to allow verification and discrimination from other individuals.
@@ -102,7 +102,7 @@ The result is a footprint embedding for each image such that images of footprint
 We started with the model pretrained on the species classification task and then fine tuned it distinctly for each species using the Triplets Approach.
 We had to tune hyperparameters differently for each species. Final results are depicted in Table 2.  
 
-![](individual_identification_triplets_model_performance.png)
+![](Images/individual_identification_triplets_model_performance.png)
 
 ### 4.3 Additional Exploration (Jacques & Mike)
 While not implemented as a part of this project scope, techniques for identification of trails and footprints in wider range images were explored as decribed below.  
@@ -114,7 +114,7 @@ While not implemented as a part of this project scope, techniques for identifica
 ## 5. Pipeline (Mike)
 ### 5.1 Flowchart
 
-![](Pipeline_Flowchart.png)
+![](Images/Pipeline_Flowchart.png)
 
 ### 5.2 Components
 
@@ -153,7 +153,7 @@ GeoJSON is extensible in the sense that user-defined properties can be added. Du
 
 ## 7. Appendix.
 ### 7.1 Note from WildTrack Founders  
-![](zoe_sky.jpg)  
+![](Images/zoe_sky.jpg)  
 Zoë Jewell *M.A., M.Sc., Vet. M.B., M.R.C.V.S*  
 Sky Alibhai *D.Phil.*  
 *Principal Research Associates, JMP software, SAS Institute*  
