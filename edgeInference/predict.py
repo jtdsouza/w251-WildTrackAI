@@ -8,8 +8,10 @@ from tensorflow.keras.layers import Lambda, Flatten, Dense, Dropout
 from tensorflow.keras.layers import Conv2D, ZeroPadding2D, Activation, Input, concatenate
 from tensorflow.keras.models import Model
 from tensorflow.keras import backend as K
-
+from PIL import Image as PILImage   #JDS 4/12
+import io  #JDS 4/12
 import numpy as np
+#import cv2 as cv
 import pickle
 import os
 import paho.mqtt.client as mqtt
@@ -27,17 +29,18 @@ def load_image(image_file,preprocessor,size=(224,224)):
     try:
         img = image.load_img(image_file,target_size=size,interpolation="nearest")
     except:
-        print("Failed to load ",image_file)
+        print("Failed to load ", image_file)
         return np.zeros(0)
     else:
-        x= image.img_to_array(img)
-        x = np.expand_dims(x, axis=0)
+        raw = image.img_to_array(img)
+        x = np.expand_dims(raw, axis=0)
         x = preprocessor(x)
-        x=np.squeeze(x)
-    return x
+        x = np.squeeze(x)
+    return img, x
 
 def LoadDataSet(folder,preprocessor,size=(224,224)):
     Prints=[]
+    Raw_Prints=[]
     Instances=[]
     Individuals=[]
     print("Loading New Data...")
@@ -45,33 +48,34 @@ def LoadDataSet(folder,preprocessor,size=(224,224)):
         print("\nCapture instance: ",instance)
         ind_path=folder+'/'+instance
         for footprint in os.listdir(ind_path):
-            x=load_image(os.path.join(ind_path,footprint),preprocessor,(224,224))
+            raw,x=load_image(os.path.join(ind_path,footprint),preprocessor,(224,224))
             if x.shape[0]==0:
                 continue
             else:
                 print("Image: ",footprint,x.shape)
                 Prints.append(x)
-
-                np.save("/WildAI/images/arrays/"+footprint, x)
-                #x.tofile("/WildAI/images/img"+footprint)                
-                
+                Raw_Prints.append(raw)
                 Instances.append(instance)
                 Individuals.append(footprint)
-    return Prints,Instances,Individuals
+    return Raw_Prints,Prints,Instances,Individuals
 
+start_time=time.time()
 
+print("Initializing and Loading SPecies Classification Model ...")
 #Load SPecies list (for classification) and Individual Reference Embeddings (for identification)
 with open(os.path.join(modelpath,'individuals_reference.pickle'), 'rb') as rhandle:
     rawref = pickle.load(rhandle)
 
 with open(os.path.join(modelpath,'species_list.pickle'), 'rb') as fhandle:
     rawspecies = pickle.load(fhandle)
+    print(rawspecies)
 
 
 #Get Base saved model for species classification
 
 vgg_model = load_model(os.path.join(modelpath,'species_classification_vgg16_model.h5'))
 
+initialization_time=time.time()
 
 def getBase(modelpath,savedmodel='species_classification_vgg16_model.h5'):
 
@@ -105,7 +109,8 @@ def softmax(X):
 def distance_probability(X):
     """Compute probability given a vector of distances"""
     X=np.asarray(X)
-    Y=(1/X) / np.sum(1/X)
+    XS=np.square(X)    #JDS 4/12
+    Y=(1/XS) / np.sum(1/XS)  #JDS 4/12
     return Y
 
 
@@ -143,9 +148,10 @@ def findnearest(Ref_Individuals,X):
 
 
 # For each image predict Species and then identify Individual
+## JDS 4/11 - Modified to add Raw_Prints
+Raw_Prints,Prints,Instances,Files=LoadDataSet(printpath,VGG16Pre,(224,224))
 
-
-Prints,Instances,Files=LoadDataSet(printpath,VGG16Pre,(224,224))
+load_data_time=time.time()
 
 # Predict Species Classification
 
@@ -162,6 +168,8 @@ Y_Probabilities=[""]*len(Y)
 for cnt in range(len(Y)):
   Y_Probabilities[cnt]=100*Y_probs[cnt,Y[cnt]]
 
+species_classification_time=time.time()
+
 # Identify Individuals
 print('\nIdentifying Individuals ......\n')
 
@@ -170,7 +178,11 @@ Y_Ind_Probability=["" for i in range(len(Prints))]
 
 for spec_indx in range(len(rawspecies)):
   
+  indices=[i for i in range(len(Y)) if Y[i] == spec_indx]
+  if len(indices)==0:
+    continue
   species=rawspecies[spec_indx]
+  print("Loading model for species: ",species)
 
   tf.keras.backend.clear_session()
   inputs,outputs=getBase(modelpath,'species_classification_vgg16_model.h5')
@@ -179,7 +191,7 @@ for spec_indx in range(len(rawspecies)):
   fname='vgg16_best_model_'+str(species)+'.h5'
   trained_model.load_weights(os.path.join(modelpath,fname))
 
-  indices=[i for i in range(len(Y)) if Y[i] == spec_indx]
+  #indices=[i for i in range(len(Y)) if Y[i] == spec_indx]
 
   X_encoded=Encode([X[i] for i in indices],trained_model)
   
@@ -191,6 +203,8 @@ for spec_indx in range(len(rawspecies)):
     Y_Individuals[indices[i]]=prediction
     
 #Print out prediction results AND/OR compose message to be transmitted (see commented out code)
+
+individual_identification_time=time.time()
 
 print("\n\nPreparing images for transfer...\n")
 
@@ -205,9 +219,12 @@ def on_connect(client, userdata, flags, rc):
 def on_publish(client, userdata, msgid):
     print("Message", msgid, "Published to Local Broker\n\n")
 
+# create mqtt client instance
 mqttclient = mqtt.Client("Edge Footprint Classifier")
+# initiate callbacks
 mqttclient.on_connect = on_connect
 mqttclient.on_publish = on_publish
+# connect to mqtt broker
 mqttclient.connect(MQTT_HOST, MQTT_PORT, 60)
 mqttclient.loop_start()
 time.sleep(5)
@@ -224,7 +241,7 @@ for i in range(len(Prints)):
     spcProb = str(round(Y_Probabilities[i],2))
     individual = Y_Individuals[i]
     indProb = str(round(Y_Ind_Probability[i],2))
-    coordinates = Instances[i][2:Instances[i].rfind('_')]
+    coordinates = Instances[i].split('|')[1]
   
     # print image attributes from inference
     print('{:^30}{:^1}{:^30}'.format('Attribute', '|', 'Value'))
@@ -239,13 +256,30 @@ for i in range(len(Prints)):
 
     # define mqtt message topic with relevant details
     msgTopic = mqttTopic+"/"+dtStamp+"/"+device+"/"+species+"/"+individual+"/"+indProb+"/"+coordinates
-    # convert image numpy array to byte array for messaging
-    img = pickle.dumps(Prints[i])
+    # convert image to byte array for messaging
+    # sending original image from Raw_Prints rather than preprocessed image
+    img=Raw_Prints[i]
+    buf=io.BytesIO()
+    img.save(buf,format='JPEG')
+    msg=buf.getvalue()
     # publish message to local mosquitto broker
     print("\nPublishing Message to Topic:", msgTopic)
-    mqttclient.publish(msgTopic, payload=img, qos=QOS, retain=False)
+    mqttclient.publish(msgTopic, payload=msg, qos=QOS, retain=False)
     # set delay to allow time for message delivery
     time.sleep(5)
 
 mqttclient.loop_stop()
 mqttclient.disconnect()
+
+end_time=time.time()
+
+#Print Timing SUmmary
+print('{:^30}{:^1}{:^30}'.format('Step', '|', 'Time (Seconds)'))
+print('='*61)
+cols = '{:30}{:^1}{:>30}'
+print(cols.format('Initialize & Load Species Model', '|', str(initialization_time-start_time)))
+print(cols.format('Image Data Load', '|', str(load_data_time-initialization_time)))
+print(cols.format('Individual Identification', '|', str(individual_identification_time-load_data_time)))
+print(cols.format('Compose and Transmit Messages', '|', str(end_time-individual_identification_time)))
+print(cols.format('Wall Time', '|', str(end_time-start_time)))
+
