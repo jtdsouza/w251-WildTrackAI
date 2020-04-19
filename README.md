@@ -86,9 +86,12 @@ There are a few core concepts from facial recognition that we found applicable i
 1. Embedding Vectors : The net result of modeling a footprint is to apply dimensionality reduction to the footprint image and generate a lower dimensional vector for each image such that vectors for footprints of the same individual are "closer together" using a consistent distance metric (example: euclidean distance or cosine similarity) than vectors of footprints of different individuals. We term these vectors "Footprint Embeddings". Identification of an individual is then about finding a reference footprint embedding closest to the one we are trying to identify.    
 2. Contrastive Loss Functions: Unlike typical loss functions that evaluate the performance of a model for each input in a data set, contrastive loss functions evaluate the performance of a model across a set (2 or 3 in the scenarios described next) of inputs at a time. The intent is to penalize the model for predicting embedding vectors for the same individual that are farther apart and conversely, predicting embedding vectors for different individuals that are closer together.  
 
-#### 4.2.1 Siamese Network Architecture (Bona)
-Work in progress
-A Siamese network is an architecture with two parallel neural networks, each taking a different input, and whose outputs are combined to provide some prediction.
+#### 4.2.1 Siamese Network Architecture (Bona) - Work in Progress
+A Siamese network is an architecture with two parallel neural networks, each taking a different input, and whose outputs are combined to provide some prediction. In the case of individual identification, two input images are fed into the Siamese network, and the prediction on how likely the given two images are to fall into the same individual is provided by the model. The above information is visually depicted in the following figure.
+![](Images/triplet-loss.png)<To be replaced>
+
+- Data preparation
+- Results - model performance on pairwise & actual individual prediction
 
 #### 4.2.2 Triplets Loss Approach (Jonathan)
 Introduced by Schroldd et al (Google - 2015), this approach creates triplets of input images: an anchor image, one positive (or matching) image (same individual), and one negative (non-matching) example (different individual).
@@ -151,7 +154,7 @@ GeoJSON is extensible in the sense that user-defined properties can be added. Du
 - Productionalization
 - Real-time Image Augmentation
 
-## 7. Appendix.
+## 7. Appendix
 ### 7.1 Note from WildTrack Founders  
 ![](Images/zoe_sky.jpg)  
 Zoë Jewell *M.A., M.Sc., Vet. M.B., M.R.C.V.S*  
@@ -168,7 +171,7 @@ We have decades of experience working with footprints, and in the last 20 years 
 
 **Huge kudos go to this team!** We can’t praise their work highly enough and we’re excited to take this project forward together.
 
-### 7.2 Implementation and Setup Details.
+### 7.2 Implementation and Setup Details
 ### 7.3  References
 https://www.cs.cmu.edu/~rsalakhu/papers/oneshot1.pdf
 FaceNet: A Unified Embedding for Face Recognition and Clustering, Florian Schroff, et al. Google (2015) https://www.cv-foundation.org/openaccess/content_cvpr_2015/html/
