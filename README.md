@@ -3,7 +3,7 @@ Footprint Identification for Wildlife Monitoring
 
 ## 1. Introduction  
 ![](Images/WildTrack-Logo.png)  
-WildTrack (https://wildtrack.org/) is a non-profit organization whose mission is to protect endangered species via non-invasive and cost-effective monitoring using footprints.   
+WildTrack (https://wildtrack.org/) is a non-profit organization that aims to develop and provide non-invasive effective monitoring of endangered species in order to mitigate human wildlife conflicts and prevent illegal poaching.   
 Traditional wildlife monitoring techniques rely on fitting of instrumentation to an animal (transmitter on a collar, tag, insert), marking, capture or close visual observation, which have shown to have counterproductive effects on conservation efforts. WildTrack was founded on the premise that monitoring could be made safer and more efficient using non-invasive techniques based on the time-honored tradition of trail and footprint tracking used by indigenous trackers.  
 At the heart of WildTrack's methodology is a specialized software FIT (Footprint Identification Technology) based on SAS JMP technology. FIT maintains a  database for animals of various species being tracked, creating a unique profile for each individual based on morphometrics of the footprints. Once set up, researchers can use it to identify movement/ location of known individuals as well as identify and start tracking previously unknown individuals. More information on how FIT works can be found here:
 - https://wildtrack.org/wp-content/uploads/2017/03/FIT-Infographic-for-AZA-dw-1.pdf
@@ -11,17 +11,17 @@ At the heart of WildTrack's methodology is a specialized software FIT (Footprint
 
 ### 1.1 Project Goals
 At the outset, the goals of this project were two-fold:
-1. To identify and analyze WIldTrack's current paint points, exploring potential solutions.
+1. To identify and analyze WildTrack's current paint points, exploring potential solutions.
 2. After narrowing down to a valuable first set of opportunities to go after, implement an end-to-end proof of concept that addresses those opportunities.
 
 ### 1.2 WildTrack current pain points and opportunities
-This project focused on two main avenues in the overall WildTrack FIT workflow:
-1. **Location of Trails:** Location of new trails and/ or areas to capture new footprint images is a highly  manual exercise involving classic geographic exploration techniques. More recently, Wildtrack has been experimenting with the use of fixed-wing drones for aerial image capture, but identifying trails on the images that these drones generate is still a manual , and unreliable process.
-2. **Pre-processing and profiling of footprints:** For a variety of reasons, raw images of footprints collected in the field still need a fair amount of processing before they are ready to be analyzed by FIT, which requires human labor.  The images need to be well formed and oriented in a certain way, and specific points (called landmarks) on the footprint need to be identified and measured in FIT before they can be used for downstream identification tasks. All in all, setting up FIT for a new area/preserve can take around 2 months per species.
+This project focused on two main avenues in the overall WildTrack footprint monitoring workflow:
+1. **Location of Trails:** Location of new trails and/ or areas to capture new footprint images is a highly  manual exercise involving classic geographic exploration techniques. More recently, Wildtrack has been experimenting with the use of fixed-wing drones for aerial image capture, but identifying trails on the images that these drones generate is still a manual, difficult and unreliable process.
+2. **Pre-processing and profiling of footprints:** For a variety of reasons, the way raw images of footprints need to be collected in the field are time consuming (the capture of a footprint entails laying a ruler next to the footprint at a specific position, taking a picture with a camera aligned as perfectly as possible directly above the footprint at a specific height) and once images are properly captured, they still need a fair amount of processing before they are ready to be analyzed by FIT, which requires human labor.  The images need to be well formed and oriented in a certain way, and specific points (called landmarks) on the footprint need to be identified and measured in FIT before they can be used for downstream identification tasks. All in all, setting up FIT for a new area/preserve can take around 2 months per species.
 The founders of WildTrack are motivated to see this project apply AI techniques to help streamline the processes and activities listed above.  
 
 ### 1.3 Proposed Approach
-The proposed approach is to target an ideal solution, recognizing that it is likely beyond the scope of the first this project, but identify an initial project scope from within that solution that has value on its own, while serving as a basis for further work.  
+The proposed approach is to target an ideal solution, recognizing that it is likely beyond the scope of the first phase of this project. So we will identify an initial project scope from within that solution that has value on its own, while serving as a basis for further work.
 
 #### 1.3.1 Ideal Solution
 The ideal solution (depicted in Figure 1) is real time identification and tracking  of wildlife by species and individual. Real time implies processing of images taken from a drone/ phone/ other camera as they are captured, with positive identification data being collected and organized centrally. It is dependent on the process being fully automated: i.e. being able to take on all the identification (species, individual) tasks that FIT does today without requiring any manual intervention (example: measurements, landmark identification, etc).  
