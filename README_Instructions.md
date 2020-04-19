@@ -13,7 +13,7 @@ ALl the word done during model development is captured in these notebooks (in th
 - Individal ID Model Training (Using Triples): WildAI_Individual_ID_Training.ipynb
 - Individual ID Model Evaluation: WildAI_IndividualID_Evaluation.ipynb  
 
-## Instructions for running Inference on TX2
+## Instructions for Configuring TX2
 - **Step 1:** Clone this Repository
 - **Step 2:** Download data and models to a local root directory on the TX2 called “WildAI”. These are all located in the following GDrive folder: https://drive.google.com/open?id=1srD-FnmRypFVtHqbn3vQSFDRgWDmJNkP. Note: It is important to preserve the subfolder structure (i.e. /WildAI/models; /WildAI/data).
 - **Step 3:** Create a local network (i.e. "footprints") so that the edge-based docker containers can communicate.  
@@ -28,12 +28,21 @@ ALl the word done during model development is captured in these notebooks (in th
 `docker build -t edge_mqtt_forwarder .`  
 `docker run -it --name edge_mqtt_forwarder --network footprints -v /w251-WildTrackAI/edgeMqttFor:/app -w /app edge_mqtt_forwarder`
 
-Download data and models to local drive on the TX2. These are all located in this GDrive folder: https://drive.google.com/open?id=1srD-FnmRypFVtHqbn3vQSFDRgWDmJNkP 
-It would be simplest to just download the entire folder (for example: to /data/WildAI/ on the TX2) and preserve the subfolder structure. There are some old files which have been archived in the archive folder - these are not needed to perform inference.
+## Instructions for Configuring VSI
+- **Step 1:** Create Virtual Server Instance (VSI)
+- **Step 2:** Create a network (i.e. "cloud-wildtrack-ai") so that the cloud-based docker containers can communicate.  
+`docker network create --driver bridge cloud-wildtrack-ai`
+- **Step 3:** Create docker image and launch VSI Broker container. The Dockerfile is located in the w251-WildTrackAI/vsiMqttBrk directory. Note: upon running this container, Mosquitto will be launched automatically.  
+`docker build -t vsi_mqtt_broker .`  
+`docker run --name vsi_mqtt_broker --network cloud-wildtrack-ai -p 1883:1883 vsi_mqtt_broker`
+- **Step 4:** Create docker image and launch VSI Receiver container.  The Dockerfile is located in the w251-WildTrackAI/vsiMqttRec directory. The first volume (-v) command in the docker run script will give you access to the s3 mounted directory for storing new files. The working directory (-w /app) command will launch the container directly into the appropriate directory to access the receiving script, vsi_receiver.py.  
+`docker build -t vsi_mqtt_receiver .`  
+`docker run -it --name vsi_mqtt_receiver --network cloud-wildtrack-ai -v /mnt/wildtrack-ai/new-files:/mnt/wildtrack-ai/new-files -v /w251-WildTrackAI/vsiMqttRec:/app -w /app edge_mqtt_forwarder`
 
-All dockerfiles and python scripts to perform inference and send messages are located in this repository under the folders wildaiIntake (inference), mqttLocBrk (local mosquitto broker), and mqttLocFor (local mosquitto forwarder). At the top of each dockerfile, you'll find the corresponding docker build and docker run scripts for each container. Note that you may need to edit the volume (-v) to point to the directory where you have copied the data, models, and repository folders referenced above.
-
-You will first need to create a local network which I called "footprints" for my implementation (docker network create --driver bridge footprints). Subsequently each of the containers you create should reference this network in the docker run scripts. All docker run scripts (with the exception of the local broker) are set to run in interactive mode and connect to the appropriate working directory (-w) automatically to run the python scripts. So once you've launched the container, you should be able to just to type python3 and the name of the python script.
+## Instructions for Running Inference
+- **Step 1:** From the VSI
+- **Step 2:** 
+- **Step 3:** 
 
 ## Instructions for the database
 
