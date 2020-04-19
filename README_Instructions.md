@@ -37,7 +37,7 @@ ALl the word done during model development is captured in these notebooks (in th
 `docker run --name vsi_mqtt_broker --network cloud-wildtrack-ai -p 1883:1883 vsi_mqtt_broker`
 - **Step 4:** Create docker image and launch VSI Receiver container.  The Dockerfile is located in the w251-WildTrackAI/vsiMqttRec directory. The first volume (-v) command in the docker run script will give you access to the s3 mounted directory for storing new files. The working directory (-w /app) command will launch the container directly into the appropriate directory to access the receiving script, vsi_receiver.py.  
 `docker build -t vsi_mqtt_receiver .`  
-`docker run -it --name vsi_mqtt_receiver --network cloud-wildtrack-ai -v /mnt/wildtrack-ai/new-files:/mnt/wildtrack-ai/new-files -v /w251-WildTrackAI/vsiMqttRec:/app -w /app edge_mqtt_forwarder`
+`docker run -it --name vsi_mqtt_receiver --network cloud-wildtrack-ai -v /mnt/wildtrack-ai/new-files:/mnt/wildtrack-ai/new-files -v /w251-WildTrackAI/vsiMqttRec:/app -w /app vsi_mqtt_receiver`
 
 ## Instructions for Running Inference
 The container setup for both the edge device and the cloud designates interactive (-it) mode and the appropriate volumes (-v) and working directories (-w) are established in the docker run scripts. Therefore, all that is left to do is call the python scripts associated with the VSI Receiver (vsi_receiver.py), Edge Forwarder (run.py), and Edge Inference(predict.py) containers from the command line and in that order. Inference should take about 5 minutes to complete.
