@@ -120,7 +120,7 @@ The data labelling is always a bottleneck for segmentation task, so we will coor
 The team saw a real opportunity to streamline the image collection and inference process by implementing object detection. The logic was that the model would detect footprints out of larger images containing multiple footprints and taken from a further distance (up to 3 meters). This would reduce reliance on closeup images taken at a very specific orientation, while still being able to perform species (minimally) and individual (ideally) classification on each of the prints. Two key issues, however, limited this implementation. First, few images with multiple footprints currently exist which could be annotated and used to train a model. And second, to date WildTrack monitoring (image capture) has focused on just one of the four feet of the target animals for classification. Images with multiple footprints would most certainly include multiple feet which would limit the accuracy of the results.
 
 Still, we attempted a YOLOv3 implementation for object detection with images available. We were able to train a footprint model on Google Colab and obtain weights, but the evaluation did not yield acceptable accuracy and we determined that more images were necessary to implement a reasonable solution. We also considered constructing our own multiple footprint images given the data we have, but given time constraints, we were unable to explore this further. So we propose to revisit object detection in the future as explained in more detail below.  
-![](Images/Footprints.png =100x100)
+![](Images/Footprints.png)
 
 ## 5. Pipeline
 ### 5.1 Flowchart
