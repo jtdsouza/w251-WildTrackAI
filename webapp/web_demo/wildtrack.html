@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Wild Track AI</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+
+	<style>
+		body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%; position:absolute; top:0; bottom:0;
+        }
+	</style>
+	
+	<style>
+		<!--#map { width: 100%; height: 100%; }-->
+		.ui-table.handsontable {
+			background:#fff;
+			position:absolute;
+			top:10px;
+			right:10px;
+			z-index:1000
+		}
+		<!--
+		.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } 
+		.info h4 { margin: 0 0 5px; color: #777; }
+		.legend { text-align: left; line-height: 18px; color: #555; } 
+		.legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+		-->
+	</style>
+</head>
+<body>
+
+<!-- Added for search 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+<script src="https://rawgit.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js"></script>
+ End Added for search -->
+
+<!-- jquery for table -->
+<script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
+<script src='https://code.jquery.com/jquery-migrate-1.2.1.min.js'></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/jquery-handsontable/0.10.2/jquery.handsontable.full.min.css' rel='stylesheet' />
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-handsontable/0.10.2/jquery.handsontable.full.min.js'></script>
+
+<script src="speciesfile.js"></script>
+<script src="trackfile.js"></script>
+<script src='controllers/search.js'></script>
+
+
+<div id='map'></div>
+<div id='table' class='ui-table'></div>
+<script>
+	
+	// Initialize Leaflet map at coordinates with zoom level
+	var map = L.map('map').setView([-14.627472,26.165583], 13);
+
+	// Add openstreetmap tiles
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(map);
+
+	// Extend leaflet icon object to generalize icon size as well as icon and popup anchors
+	var TrackIcon = L.Icon.extend({
+		options: {
+			iconSize:     [100, 80],
+			iconAnchor:   [22, 94],
+			popupAnchor:  [-3, -76]
+		}
+	});
+	
+    // Collect properties into a string to populate popupContent
+	function onEachFeature(feature, layer) {
+		var popupContent = ""
+
+		var species = "";
+		if (feature.properties && feature.properties.species) {
+			species = feature.properties.species;
+		} else {
+			species = "Unknown";
+		}
+		popupContent += "Species: " + species + "<br>";
+		
+		for (var i=0;i < speciesList.length;i++) {
+			if (speciesList[i].name == species) {
+				speciesList[i].count += 1;
+				break;
+			}
+		}
+
+		if (feature.properties && feature.properties.species) {
+			popupContent += "Name: " + feature.properties.name + "<br>";
+		} else {
+			popupContent += "Name: Unknown" + "<br>";
+		}
+
+		if (feature.properties && feature.properties.sex) {
+			if (feature.properties.sex == "U") {
+				popupContent += "Sex: Unknown" + "<br>";
+			} else if (feature.properties.sex == "F") {
+				popupContent += "Sex: Female" + "<br>";
+			} else {
+				popupContent += "Sex: Male" + "<br>";
+			}
+		} else {
+			popupContent += "Name: Unknown" + "<br>";
+		}
+
+		if (feature.geometry && feature.geometry.coordinates) {
+			popupContent += "Latitude : " + feature.geometry.coordinates[1] + "<br>";
+			popupContent += "Longitude: " + feature.geometry.coordinates[0] + "<br>";
+		}
+		if (feature.geometry && feature.properties.iconUrl) {
+			popupContent += "<br><center><img src=\"" + feature.properties.iconUrl + "\" height=\"80\" width=\"80\" border=\"1\"></center>"
+		}
+		
+		layer.bindPopup(popupContent);
+	}
+
+    // Add icon markers to map
+	var tracksLayer = L.geoJSON(wildtracks, {
+		pointToLayer: function (feature, latlng) {
+		var imageUrl = "images/icons/";
+		for (var i=0; i < speciesList.length; i++) {
+			if (speciesList[i].name == feature.properties.species){
+				imageUrl += speciesList[i].imageUrl;
+				break;
+			}
+		}
+		return L.marker(latlng, {icon: new TrackIcon({iconUrl: imageUrl }) });
+	},
+		onEachFeature: onEachFeature
+	}).addTo(map);
+
+	L.Control.Watermark = L.Control.extend({
+    onAdd: function(map) {
+        var img = L.DomUtil.create('img');
+
+        img.src = '../supervisor/wildtrackai-logo-dark.png';
+        img.style.width = '200px';
+
+        return img;
+    },
+
+    onRemove: function(map) {
+        // Nothing to do here
+    }
+	});
+
+	L.control.watermark = function(opts) {
+    	return new L.Control.Watermark(opts);
+	}
+
+	L.control.watermark({ position: 'bottomright' }).addTo(map);
+
+	// Species count summary table
+	$("#table").handsontable({
+		data: speciesList,
+		startRows: 3,
+		startCols: 2,
+		colHeaders: ['Species', 'Count'],
+		columnSorting: true,
+		columns: [
+			{
+				data: 'name',
+			},
+			{
+				data: 'count',
+				type: 'numeric'
+			}
+		],
+        maxSpareRows: 0,
+	});
+
+</script>
+
+
+
+</body>
+</html>
