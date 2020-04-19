@@ -1,5 +1,19 @@
-# w251-WildTrackAI
-WildTrack AI work (started with W251)
+# Code Artifacts and Setup Instructions
+
+## Data and Image Pre-Proessing  
+The Raw Data Images are stored in a shared Google Drive (for ease of collaboration with WIldTrack founders) as well as on an S3 Mount.
+The WildAID_PreProcess.ipynb in the "Models" subfolder of this repository is what we used to process these images to use as inputs for various models. 
+
+## Model Development and Training  
+
+Model development and training was mostly done on Google Colab (using the GPU/ High RAM option) for ease of collaboration across various team members and it's integration with Google Drive which was our primary means of collaboration with the WIldTrack Founders as well.   
+ALl the word done during model development is captured in these notebooks (in the Models subfolder of this repository)
+
+- Species Classification Model Training & Eval: WildAI_Species_Classification.ipynb
+- Individal ID Model Training (Using Triples): WildAI_Individual_ID_Training.ipynb
+- Individual ID Model Evaluation: WildAI_IndividualID_Evaluation.ipynb  
+
+
 
 
 ## Instructions for running Inference on TX2
