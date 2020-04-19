@@ -41,7 +41,7 @@ The high level solution approach for this project is depicted in Figure 2.
 The solution has the following key components:
 1. Model Training: Models for Species Classification and Individual Identification, trained in the cloud.
 2. Inference on the Edge: The models above are deployable on an edge device (in our case, the Jetson TX2) to run inference on captured images and detect species first and then identify a specific individual within that species.  
-3. Cloud Database and sample web application:  A central aggregator for footprints and associated metadata being captured on various edge devices, with a web-front end to manage and view.
+3. Cloud Database and web application:  A central aggregator for footprints and associated metadata being captured on various edge devices, with a web-front end to view and further management.
 
 ## 3. Data Set and Processing (DAN)
 ### 3.1 Base Images
@@ -59,10 +59,10 @@ The solution has the following key components:
 - What we tried, why we didn't use it
 
 ## 4. Model Development (Jonathan & Bona)
-Based on initial research, we decided to start on the Species Classification task by experimenting with common computer vision models pretraind on Imagenet. The intent was to use Species classification to establish a baseline of knowledge on the data set, current state of the art and relative model performance. The modeling approach arrived at here would then be used as the basis for Individual Identification.
+Based on initial research, we decided to start on the Species Classification task by experimenting with common computer vision models pretrained on Imagenet. The intent was to use Species classification to establish a baseline of knowledge on the data set, current state of the art and relative model performance. The modeling approach arrived at what would then be used as the basis for Individual Identification.
 
 ### 4.1 Species Classification
-We approached species classification as a straightforward image classification task i.e. given an image of a footprint, the model predicts it being one of 11 (in the case of the set of species this project focused on) classes. After some research an experimentation on the pretrained models in the Keras applications library (VGG family, Resnet, Inception, Xception, Mobilenet, Densenet), we shortlisted VGG16, Mobilenetv2 and Xception for more exhaustive hyperparameter tuning and comparative study.
+We approached species classification as a straightforward image classification task i.e. given an image of a footprint, the model predicts it being one of 11 classes (in the case of the set of species this project focused on). After some research and experimentation on the pretrained models in the Keras applications library (VGG family, Resnet, Inception, Xception, Mobilenet, Densenet), we shortlisted VGG16, Mobilenetv2 and Xception for more exhaustive hyperparameter tuning and comparative study.
 
 #### 4.1.1 Model Evaluation & Comparison (Bona)
 We enhanced the models for the three shortlisted pretrained models mentioned above by tweaking the depth of the model and various hyperparameter values such as loss function and optimizer. We then evaluated the models based on the test dataset of 204 footprint images using an accuracy as key performance index of the models in addition to the number of parameters in each model. Detailed information on the models can be found below.
@@ -108,10 +108,14 @@ We had to tune hyperparameters differently for each species. Final results are d
 
 ![](Images/individual_identification_triplets_model_performance.png)
 
-### 4.3 Additional Exploration (Jacques & Mike)
+### 4.3 Additional Exploration
 While not implemented as a part of this project scope, techniques for identification of trails and footprints in wider range images were explored as decribed below.  
 
-#### 4.3.1 Trail Identification (Jacques)
+#### 4.3.1 Trail Identification
+Some research led to a promising approach inspired from detecting rivers from remotely sensed imagery, as trails captured from the relatively high altitude WildTrack wixed-wing drone produces similar images. The goal is the characterization of trails according to their Gaussian-like longitudinal continuity. We also researched some useful pre-processing methods that enhances curvilinear features.
+This is a semantic segmentation task so after research and pointers from our professors on U-Net approaches, we explored and propose a semantic segmentation neural network which combines the strenghts of residual learning and U-Net for the next phase based on a research by Zhengxin Zhang and Qingjie Liu for "Road extraction by Deep Residual U-Net".
+The data labelling is always a bottleneck for segmentation task, so we will coordinate at an early stage with the WildTrack team to ensure we have usable data for the next phase.
+
 #### 4.4 Footprint Detection (Mike)
 
 
