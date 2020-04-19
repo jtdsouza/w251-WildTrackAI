@@ -32,10 +32,11 @@ ALl the word done during model development is captured in these notebooks (in th
 - **Step 1:** Create Virtual Server Instance (VSI)
 - **Step 2:** Create a network (i.e. "cloud-wildtrack-ai") so that the cloud-based docker containers can communicate.  
 `docker network create --driver bridge cloud-wildtrack-ai`
-- **Step 3:** Create docker image and launch VSI Broker container. The Dockerfile is located in the w251-WildTrackAI/vsiMqttBrk directory. Note: upon running this container, Mosquitto will be launched automatically.  
+- **Step 3:** Create S3 object storage and mount a directory on the VSI (/mnt/wildtrack-ai/new-files) to deposit new images.
+- **Step 4:** Create docker image and launch VSI Broker container. The Dockerfile is located in the w251-WildTrackAI/vsiMqttBrk directory. Note: upon running this container, Mosquitto will be launched automatically.  
 `docker build -t vsi_mqtt_broker .`  
 `docker run --name vsi_mqtt_broker --network cloud-wildtrack-ai -p 1883:1883 vsi_mqtt_broker`
-- **Step 4:** Create docker image and launch VSI Receiver container.  The Dockerfile is located in the w251-WildTrackAI/vsiMqttRec directory. The first volume (-v) command in the docker run script will give you access to the s3 mounted directory for storing new files. The working directory (-w /app) command will launch the container directly into the appropriate directory to access the receiving script, vsi_receiver.py.  
+- **Step 5:** Create docker image and launch VSI Receiver container.  The Dockerfile is located in the w251-WildTrackAI/vsiMqttRec directory. The first volume (-v) command in the docker run script will give you access to the s3 mounted directory for storing new files. The working directory (-w /app) command will launch the container directly into the appropriate directory to access the receiving script, vsi_receiver.py.  
 `docker build -t vsi_mqtt_receiver .`  
 `docker run -it --name vsi_mqtt_receiver --network cloud-wildtrack-ai -v /mnt/wildtrack-ai/new-files:/mnt/wildtrack-ai/new-files -v /w251-WildTrackAI/vsiMqttRec:/app -w /app vsi_mqtt_receiver`
 
