@@ -112,7 +112,12 @@ We had to tune hyperparameters differently for each species. Final results are d
 While not implemented as a part of this project scope, techniques for identification of trails and footprints in wider range images were explored as decribed below.  
 
 #### 4.3.1 Trail Identification
+Trail identification from drone images is a very challenging exercise for a human as shown on the image below. This is an image that has been zoomed in already 10x and the trails are barely visible.
+
+![](Images/trails-drone.png)
+
 Some research led to a promising approach inspired from detecting rivers from remotely sensed imagery, as trails captured from the relatively high altitude WildTrack wixed-wing drone produces similar images. The goal is the characterization of trails according to their Gaussian-like longitudinal continuity. We also researched some useful pre-processing methods that enhances curvilinear features.
+
 This is a semantic segmentation task so after research and pointers from our professors on U-Net approaches, we explored and propose a semantic segmentation neural network which combines the strenghts of residual learning and U-Net for the next phase based on a research by Zhengxin Zhang and Qingjie Liu for "Road extraction by Deep Residual U-Net".
 The data labelling is always a bottleneck for segmentation task, so we will coordinate at an early stage with the WildTrack team to ensure we have usable data for the next phase.
 
