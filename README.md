@@ -113,6 +113,9 @@ While not implemented as a part of this project scope, techniques for identifica
 
 ## 5. Pipeline (Mike)
 ### 5.1 Flowchart
+
+![](Pipeline Flowchart.png)
+
 ### 5.2 Components
 
 The following describes the key components of the pipeline and their functionality. Components 2 through 6 below are “containerized” through Docker to facilitate implementation, and Docker networks are created both on the edge devices and in the cloud to handle communication between the different containers. The pipeline utilizes Eclipse Mosquitto (MQTT) to transfer classified images and their respective attributes using a publish/subscribe model described in more detail below. In the Mosquitto context, the images themselves are transferred as the message payload while the image attributes (date, time, species, individual, classification probability, geographic coordinates, etc.) are transferred via the message topic. Throughout the pipeline, the topic used to identify relevant messages is “WildAI/#” with the hashtag used to represent all subsequent attributes that are appended to the message topic.
