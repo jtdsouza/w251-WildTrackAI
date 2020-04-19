@@ -181,6 +181,10 @@ We have decades of experience working with footprints, and in the last 20 years 
 **Huge kudos go to this team!** We can’t praise their work highly enough and we’re excited to take this project forward together.
 
 ### 7.2 Implementation and Setup Details
+Details on various code artifacts and implementation can be found in this document .....<insert link to set up doc>
+
+
 ### 7.3  References
-https://www.cs.cmu.edu/~rsalakhu/papers/oneshot1.pdf
-FaceNet: A Unified Embedding for Face Recognition and Clustering, Florian Schroff, et al. Google (2015) https://www.cv-foundation.org/openaccess/content_cvpr_2015/html/
+1. Koch et al, 2015. Siamese Neural Networks for One-shot Image Recognition (https://www.cs.cmu.edu/~rsalakhu/papers/oneshot1.pdf)
+2. Schroff et al. Google (2015). FaceNet: A Unified Embedding for Face Recognition and Clustering (https://arxiv.org/abs/1503.03832)
+3. Gu, Aibhai, Jewell et al (2014). Sex Determination of Amur Tigers From Footprints in Snow (https://wildtrack.org/wp-content/uploads/2014/06/Amur-tiger-paper-WSB-2014.pdf)    
