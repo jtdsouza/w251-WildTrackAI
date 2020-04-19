@@ -18,9 +18,9 @@ ALl the word done during model development is captured in these notebooks (in th
 - **Step 2:** Download data and models to a local root directory on the TX2 called “WildAI”. These are all located in the following GDrive folder: https://drive.google.com/open?id=1srD-FnmRypFVtHqbn3vQSFDRgWDmJNkP. Note: It is important to preserve the subfolder structure (i.e. /WildAI/models; /WildAI/data).
 - **Step 3:** Create a local network (i.e. "footprints") so that the edge-based docker containers can communicate.  
 `docker network create --driver bridge footprints`
-- **Step 4:** Create docker image and launch Edge Inference container. The Dockerfile is located in the w251-WildTrackAI/edge_inference directory. Note: the docker image for this container is based on an image called w251/tensorrt:dev-tx2-4.3_b132 available on Docker Hub. This image takes a while to build, so allow 30-40 mins. The volume created (-v) will give you access to the predict.py script necessary to perform inference.  
+- **Step 4:** Create docker image and launch Edge Inference container. The Dockerfile is located in the w251-WildTrackAI/edge_inference directory. Note: the docker image for this container is based on an image called w251/tensorrt:dev-tx2-4.3_b132 available on Docker Hub. This image takes a while to build, so allow 30-40 mins. The volumes created (-v) will give you access to the models, data, and predict.py script necessary to perform inference.  
 `docker build -t edge_inference -f Dockerfile.dev-tx2-4.3_b132-py3 .`  
-`docker run –privileged -it --name edge_inference --network footprints -v /w251-WildTrackAI/edgeInference:/app -w /app edge_inference`
+`docker run –privileged -it --name edge_inference --network footprints -v /WildAI:/WildAI -v /w251-WildTrackAI/edgeInference:/app -w /app edge_inference`
 - **Step 5:** Create docker image and launch Edge Broker container. The Dockerfile is located in the w251-WildTrackAI/edgeMqttBrk directory. Note: upon running this container, Mosquitto will be launched automatically.  
 `docker build -t edge_mqtt_broker .`  
 `docker run --name edge_mqtt_broker --network footprints -p 1883:1883 edge_mqtt_broker`
