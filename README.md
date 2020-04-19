@@ -121,6 +121,7 @@ The team saw a real opportunity to streamline the image collection and inference
 
 Still, we attempted a YOLOv3 implementation for object detection with images available. We were able to train a footprint model on Google Colab and obtain weights, but the evaluation did not yield acceptable accuracy and we determined that more images were necessary to implement a reasonable solution. We also considered constructing our own multiple footprint images given the data we have, but given time constraints, we were unable to explore this further. So we propose to revisit object detection in the future as explained in more detail below.  
 ![](Images/Footprints.png)
+<img src="Images/Footprints.png">
 
 ## 5. Pipeline
 ### 5.1 Flowchart
