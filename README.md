@@ -44,9 +44,9 @@ The high level solution approach for this project is depicted in Figure 2.
 ![](Images/solution_arch.png)  
 *Figure 2. Solution Approach at a glance*    
 The solution has the following key components:
-1. Model Training: Models for Species Classification and Individual Identification, trained in the cloud.
-2. Inference on the Edge: The models above are deployable on an edge device (in our case, the Jetson TX2) to run inference on captured images and detect species first and then identify a specific individual within that species.  
-3. Cloud Database and web application:  A central aggregator for footprints and associated metadata being captured on various edge devices, with a web-front end to view and further management.
+1. **Model Training:** Models for Species Classification and Individual Identification, trained in the cloud.
+2. **Inference on the Edge:** The models above are deployable on an edge device (in our case, the Jetson TX2) to run inference on captured images and detect species first and then identify a specific individual within that species.  
+3. **Cloud Database and Web Application:** A central aggregator for footprints and associated metadata being captured on various edge devices, with a web-front end to view and further manage images and their attributes.
 
 ## 3. Data Set and Processing
 ### 3.1 Base Images
