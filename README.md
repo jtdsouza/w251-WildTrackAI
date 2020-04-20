@@ -45,7 +45,10 @@ The solution has the following key components:
 
 ## 3. Data Set and Processing (DAN)
 ### 3.1 Base Images
-- Key stats (total images and breakdown by species/ individual) with examples showing diverse substrate/ print types
+The dataset includes 1928 footprint images with 11 species of animal. There are between 7-13 known individuals per species. The data is roughly split 90:10 between train and test with some variation per species.
+![](Images/DistributionOfSpecies.png) 
+![](Images/IndividualsPerSpecies.png) 
+-  with examples showing diverse substrate/ print types
 - Crop images (incl examples of raw and cropped)
 
 |                     Raw Image                    |                     Cropped Image                    |
@@ -54,7 +57,6 @@ The solution has the following key components:
 
 *Figure 3: Sample Raw & Cropped Images of Leopard Shakira*
 
-- Separate into test and train (90-10)
 ### 3.2 Image Augmentation
 - What we tried, why we didn't use it
 
