@@ -43,13 +43,16 @@ The solution has the following key components:
 2. Inference on the Edge: The models above are deployable on an edge device (in our case, the Jetson TX2) to run inference on captured images and detect species first and then identify a specific individual within that species.  
 3. Cloud Database and web application:  A central aggregator for footprints and associated metadata being captured on various edge devices, with a web-front end to view and further management.
 
-## 3. Data Set and Processing (DAN)
+## 3. Data Set and Processing
 ### 3.1 Base Images
 The dataset includes 1928 footprint images with 11 species of animal. There are between 7-13 known individuals per species. The data is roughly split 90:10 between train and test with some variation per species.
 ![](Images/DistributionOfSpecies.png) 
 ![](Images/IndividualsPerSpecies.png) 
--  with examples showing diverse substrate/ print types
-- Crop images (incl examples of raw and cropped)
+
+The footprint images come from a variety of ground substrates including sand, dirt of varying consistency, and snow. The color and light conditions also change among images, species, and individuals.
+![](Images/Tile.png) 
+
+Consistent with WildTrack's FIT system, the images initially included a ruler to enable accurate measurement of footprint dimensions. We cropped the images to remove the measuring tool for our deep learning pipeline.
 
 |                     Raw Image                    |                     Cropped Image                    |
 |:------------------------------------------------:|:----------------------------------------------------:|
@@ -58,7 +61,7 @@ The dataset includes 1928 footprint images with 11 species of animal. There are 
 *Figure 3: Sample Raw & Cropped Images of Leopard Shakira*
 
 ### 3.2 Image Augmentation
-- What we tried, why we didn't use it
+In the interest of increasing the number of images in our training set and also to make our model robust to variations in production images, we attempted augmentation of the image dataset. We applied augmentation using Rob Dawson’s Image Augmentor. The accuracy on the test set dropped when augmentation was applied in training but not in test. When augmentation was applied to both training and test, the accuracies	were similar with baseline data in comparison to augmented data. As a result, we opted to not use augmentation at this time. We will explore other augmentation strategies in future work.
 
 ## 4. Model Development (Jonathan & Bona)
 Based on initial research, we decided to start on the Species Classification task by experimenting with common computer vision models pretrained on Imagenet. The intent was to use Species classification to establish a baseline of knowledge on the data set, current state of the art and relative model performance. The modeling approach arrived at what would then be used as the basis for Individual Identification.
