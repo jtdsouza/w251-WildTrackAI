@@ -16,7 +16,7 @@ At the heart of WildTrack's methodology is a specialized software FIT (Footprint
 
 ### 1.1 Project Goals
 At the outset, the goals of this project were two-fold:
-1. To identify and analyze WildTrack's current paint points, exploring potential solutions.
+1. To identify and analyze WildTrack's current pain points, and explore potential solutions.
 2. After narrowing down to a valuable first set of opportunities to go after, implement an end-to-end proof of concept that addresses those opportunities.
 
 ### 1.2 WildTrack current pain points and opportunities
