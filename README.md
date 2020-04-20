@@ -208,7 +208,7 @@ We have decades of experience working with footprints, and in the last 20 years 
 **Huge kudos go to this team!** We can’t praise their work highly enough and we’re excited to take this project forward together.
 
 ### 7.2 Implementation and Setup Details
-Details on various code artifacts and implementation can be found [in this document](https://github.com/jtdsouza/w251-WildTrackAI/blob/master/README_Instructions.md)
+Details on various code artifacts and implementation can be found [in this document](https://github.com/jtdsouza/w251-WildTrackAI/blob/master/README_Instructions.md).
 
 
 ### 7.3  References
