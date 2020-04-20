@@ -1,5 +1,10 @@
-# w251-WildTrackAI
-Footprint Identification for Wildlife Monitoring
+# WildTrack AI 
+*Footprint Identification for Wildlife Monitoring*  
+
+*Final Project for W251: Deep Learning in the CLoud and at the Edge*  
+*Participants: Bona Lee, Dan Price, Jacques Makutonin, Jonathan D'Souza, Michael Reiter*  
+
+
 
 ## 1. Introduction  
 ![](Images/WildTrack-Logo.png)  
@@ -68,7 +73,7 @@ Based on initial research, we decided to start on the Species Classification tas
 ### 4.1 Species Classification
 We approached species classification as a straightforward image classification task i.e. given an image of a footprint, the model predicts it being one of 11 classes (in the case of the set of species this project focused on). After some research and experimentation on the pretrained models in the Keras applications library (VGG family, Resnet, Inception, Xception, Mobilenet, Densenet), we shortlisted VGG16, Mobilenetv2 and Xception for more exhaustive hyperparameter tuning and comparative study.
 
-#### 4.1.1 Model Evaluation & Comparison (Bona)
+#### 4.1.1 Model Evaluation & Comparison  
 We enhanced the models for the three shortlisted pretrained models mentioned above by tweaking the depth of the model and various hyperparameter values such as loss function and optimizer. We then evaluated the models based on the test dataset of 204 footprint images using an accuracy as key performance index of the models in addition to the number of parameters in each model. Detailed information on the models can be found below.
 
 ![](Images/species_classification_model_comparison.png)
@@ -106,7 +111,7 @@ Introduced by Schroldd et al(Google - 2015), this approach builds on the Siamese
 The loss function penalizes the model such that the model learns to reduce the distance between matching examples and increase the distance between non-matching examples.  
 The result is a footprint embedding for each image such that images of footprints of the same individual  produce images that have a smaller distances (can be clustered together) to allow verification and discrimination from other individuals.
 
-#### 4.2.2 Training Experimentation and Results (Jonathan)
+#### 4.2.2 Training Experimentation and Results  
 We started with the model pretrained on the species classification task and then fine tuned it distinctly for each species using the Triplets Approach.
 We had to tune hyperparameters differently for each species. Final results are depicted in Table 2.  
 
