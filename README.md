@@ -3,11 +3,10 @@ Footprint Identification for Wildlife Monitoring
 
 ## 1. Introduction  
 ![](Images/WildTrack-Logo.png)  
-WildTrack (https://wildtrack.org/) is a non-profit organization that aims to develop and provide non-invasive effective monitoring of endangered species in order to mitigate human wildlife conflicts and prevent illegal poaching.   
+[WildTrack](https://wildtrack.org/) is a non-profit organization that aims to develop and provide non-invasive effective monitoring of endangered species in order to mitigate human wildlife conflicts and prevent illegal poaching.   
 Traditional wildlife monitoring techniques rely on fitting of instrumentation to an animal (transmitter on a collar, tag, insert), marking, capture or close visual observation, which have shown to have counterproductive effects on conservation efforts. WildTrack was founded on the premise that monitoring could be made safer and more efficient using non-invasive techniques based on the time-honored tradition of trail and footprint tracking used by indigenous trackers.  
-At the heart of WildTrack's methodology is a specialized software FIT (Footprint Identification Technology) based on SAS JMP technology. FIT maintains a  database for animals of various species being tracked, creating a unique profile for each individual based on morphometrics of the footprints. Once set up, researchers can use it to identify movement/ location of known individuals as well as identify and start tracking previously unknown individuals. More information on how FIT works can be found here:
-- https://wildtrack.org/wp-content/uploads/2017/03/FIT-Infographic-for-AZA-dw-1.pdf
-- https://wildtrack.org/how-fit-works/
+At the heart of WildTrack's methodology is a specialized software FIT (Footprint Identification Technology) based on SAS JMP technology. FIT maintains a  database for animals of various species being tracked, creating a unique profile for each individual based on morphometrics of the footprints. Once set up, researchers can use it to identify movement/ location of known individuals as well as identify and start tracking previously unknown individuals. An overview on how FIT works can be found [in this infographic](https://wildtrack.org/wp-content/uploads/2017/03/FIT-Infographic-for-AZA-dw-1.pdf)
+
 
 ### 1.1 Project Goals
 At the outset, the goals of this project were two-fold:
@@ -63,7 +62,7 @@ Consistent with WildTrack's FIT system, the images initially included a ruler to
 ### 3.2 Image Augmentation
 In the interest of increasing the number of images in our training set and also to make our model robust to variations in production images, we attempted augmentation of the image dataset. We applied augmentation using Rob Dawson’s Image Augmentor. The accuracy on the test set dropped when augmentation was applied in training but not in test. When augmentation was applied to both training and test, the accuracies	were similar with baseline data in comparison to augmented data. As a result, we opted to not use augmentation at this time. We will explore other augmentation strategies in future work.
 
-## 4. Model Development (Jonathan & Bona)
+## 4. Model Development  
 Based on initial research, we decided to start on the Species Classification task by experimenting with common computer vision models pretrained on Imagenet. The intent was to use Species classification to establish a baseline of knowledge on the data set, current state of the art and relative model performance. The modeling approach arrived at what would then be used as the basis for Individual Identification.
 
 ### 4.1 Species Classification
@@ -77,7 +76,7 @@ We enhanced the models for the three shortlisted pretrained models mentioned abo
 
 As shown in the table, although Xception yielded the highest accuracy, VGG16 was chosen as the final model as the difference in the accuracies between VGG16 and Xception is significantly small compared to the difference in the number of model parameters.
 
-#### 4.1.2 Final Results for Species Classification (Bona)
+#### 4.1.2 Final Results for Species Classification  
 We looked further into the details of the final model to observe how the model performs in each class of species.
 
 We used t-Distributed Stochastic Neighbor Embedding(t-SNE), a dimensionality reduction technique used to represent high-dimensional dataset in a low-dimensional space of two or three dimensions, to visualize the dataset by species. As shown in *Figure 5*, the data points of the same species tend to cluster together. If the graph is looked at more closely, Leopard and White Rhino have a few data points that lie with other species, which explain their lower accuracies compared to those of other species.
@@ -85,13 +84,13 @@ We used t-Distributed Stochastic Neighbor Embedding(t-SNE), a dimensionality red
 ![](Images/species_classification_TSNE.png)
 *Figure 5. Species Classification Visualization Using t-SNE*
 
-### 4.2 Individual Identification (Jonathan)
+### 4.2 Individual Identification 
 Much of the work we did for Individual Identification was inspired by current state of the art techniques in Facial Recognition. Given a footprint, the identification task requires a way to match the footprint to  a set of reference footprints of known individuals.
 There are a few core concepts from facial recognition that we found applicable in this space:  
 1. Embedding Vectors : The net result of modeling a footprint is to apply dimensionality reduction to the footprint image and generate a lower dimensional vector for each image such that vectors for footprints of the same individual are "closer together" using a consistent distance metric (example: euclidean distance or cosine similarity) than vectors of footprints of different individuals. We term these vectors "Footprint Embeddings". Identification of an individual is then about finding a reference footprint embedding closest to the one we are trying to identify.    
 2. Contrastive Loss Functions: Unlike typical loss functions that evaluate the performance of a model for each input in a data set, contrastive loss functions evaluate the performance of a model across a set (2 or 3 in the scenarios described next) of inputs at a time. The intent is to penalize the model for predicting embedding vectors for the same individual that are farther apart and conversely, predicting embedding vectors for different individuals that are closer together.  
 
-#### 4.2.1 Siamese Network Architecture (Bona)
+#### 4.2.1 Siamese Network Architecture 
 One of the two neural network architecture that we tried is a Siamese network architecture. A Siamese network is an architecture with two parallel neural networks, each taking a different input, and whose outputs are combined to provide some prediction. In the case of individual identification, two footprint images from the same species are fed into the Siamese network, and the prediction on how likely the given two images are to fall into the same individual is provided by the model. The above information is visually depicted in the following figure.
 ![](Images/Siamese_Network.png)
 
@@ -99,8 +98,8 @@ Before training the model, we prepared the training dataset that can fit into th
 
 We tried building and enhancing both custom model and pretrained model(VGG16). The optimized pretrained model had a high accuracy of 91% on the pairwise mapping prediction; however, the accuracy on the individual class prediction (after converting similarity scores to individual classes) was significantly low, which ranged around 18-30%. Further analysis on finding out why there is a huge gap in the accuracies between the two predictions is not performed due to time constraints. One of the potential factors is that we randomly selected one image from each individual to be compared with test images instead of selecting representative footprint images.
 
-#### 4.2.2 Triplets Loss Approach (Jonathan)
-Introduced by Schroldd et al (Google - 2015), this approach creates triplets of input images: an anchor image, one positive (or matching) image (same individual), and one negative (non-matching) example (different individual).
+#### 4.2.2 Triplets Network Architecture
+Introduced by Schroldd et al(Google - 2015), this approach builds on the Siamese Network descived above, creating triplets of input images: an anchor image, one positive (or matching) image (same individual), and one negative (non-matching) example (different individual).
 
 ![](Images/triplet-loss.png)
 
@@ -175,14 +174,15 @@ GeoJSON is extensible in the sense that user-defined properties can be added. Du
 
 ![](Images/webapp-map-detail.png)
 
-## 6. Future Steps (Everyone)
-- **Object Detection**: The team would like to implement an object detection system whereby the model could detect footprints from images or videos taken from a further distance vs. closeup images taken at a very specific orientation. Subsequently, we envision an implementation similar to YOLO whereby the model could perform classification in realtime through the camera of a mobile device applying an object detection algorithm. To achieve that, we would work on model enhancement by expanding training data via combination of augmentation and procurement of additional images that aren’t as well curated as our initial set (i.e. imperfect images).
+## 6. Future Steps 
+The following is a non-exhaustive list of ongoing and future avenues of work based on this project.
+- **Object Detection and Model Improvements**: The team would like to implement an object detection system whereby the model could detect footprints from images or videos taken from a further distance vs. closeup images taken at a very specific orientation. Subsequently, we envision an implementation similar to YOLO whereby the model could perform classification in realtime through the camera of a mobile device applying an object detection algorithm. To achieve that, we would work on model enhancement by expanding training data via combination of augmentation and procurement of additional images that aren’t as well curated as our initial set (i.e. imperfect images).
 We would also evaluate other pretrained model architectures like MixNet, Efficient Net to further drive down the model footprint without unduly sacrificing accuracy.
-We will also work on the semantic segmentation task for trail identifications to alleviate that part of the process.
-- **Pipeline Optimization**: With the exception of the "intake" container, which loads the pretrained models and performs inference, the pipeline is very light, with the containers totaling less than 100MB combined. However, the edge inference container does require some additional work to reduce its' size to be more mobile-friendly. This could be achieved through the identification of a more mobile-friendly model, or through reconfiguring a streamlined container that can still perform the necessary functionality.
-- **Productionalization**: The automation of deployments of models to the edge as well as security are paramount aspects for the operationalization but we will as well work closely with the WildTrack team to develop a production grade web application and work on integration into their IT eco system. One important aspect is to move from teh prototype on the Jetson TX2 into a mobile applicaiton to be deployed on mobile phones to be used as edge devices. Along the same lines, working more closely with the drone provider to also deploy an architecture directly on board.
-- Real-time Image Augmentation
-- Model Enhancement
+We will also work on the semantic segmentation task for trail identifications to alleviate that part of the process.  
+- **E2E Pipeline Optimization**: With the exception of the "intake" container, which loads the pretrained models and performs inference, the pipeline is very light, with the containers totaling less than 100MB combined. However, the edge inference container does require some additional work to reduce its' size to be more mobile-friendly. This could be achieved through the identification of a more mobile-friendly model, or through reconfiguring a streamlined container that can still perform the necessary functionality.
+- **Productionalization**: The automation of deployments of models to the edge as well as security are paramount aspects for the operationalization but we will as well work closely with the WildTrack team to develop a production grade web application and work on integration into their IT eco system. One important aspect is to move from the prototype on the Jetson TX2 into a mobile applicaiton to be deployed on mobile phones to be used as edge devices. Along the same lines, working more closely with the drone provider to also deploy an architecture directly on board.
+- **Enabling Incremental & Reinforcement Learning**: With an E2E pipeline that pushes new images and metadata to the cloud and can pull down updated models and inference artifacts from the cloud, there is an oppoprtunity to create a continuous feedback loop between the edge (including the user of the edge device) and the model funetuning process in the cloud.  
+
 
 ## 7. Appendix
 ### 7.1 Note from WildTrack Founders  
@@ -202,10 +202,11 @@ We have decades of experience working with footprints, and in the last 20 years 
 **Huge kudos go to this team!** We can’t praise their work highly enough and we’re excited to take this project forward together.
 
 ### 7.2 Implementation and Setup Details
-Details on various code artifacts and implementation can be found in this document .....<insert link to set up doc>
+Details on various code artifacts and implementation can be found [in this document](https://github.com/jtdsouza/w251-WildTrackAI/blob/master/README_Instructions.md)
 
 
 ### 7.3  References
-1. Koch et al, 2015. Siamese Neural Networks for One-shot Image Recognition (https://www.cs.cmu.edu/~rsalakhu/papers/oneshot1.pdf)
-2. Schroff et al. Google (2015). FaceNet: A Unified Embedding for Face Recognition and Clustering (https://arxiv.org/abs/1503.03832)
-3. Gu, Aibhai, Jewell et al (2014). Sex Determination of Amur Tigers From Footprints in Snow (https://wildtrack.org/wp-content/uploads/2014/06/Amur-tiger-paper-WSB-2014.pdf)    
+1. Koch et al, 2015. [Siamese Neural Networks for One-shot Image Recognition](https://www.cs.cmu.edu/~rsalakhu/papers/oneshot1.pdf)
+2. Schroff et al. Google (2015). [FaceNet: A Unified Embedding for Face Recognition and Clustering](https://arxiv.org/abs/1503.03832)
+3. Gu, Aibhai, Jewell et al (2014). [Sex Determination of Amur Tigers From Footprints in Snow](https://wildtrack.org/wp-content/uploads/2014/06/Amur-tiger-paper-WSB-2014.pdf)   
+4. [How FIT Works](https://wildtrack.org/how-fit-works/)   
