@@ -4,7 +4,7 @@
 *Final Project for W251: Deep Learning in the CLoud and at the Edge*  
 *Participants: Bona Lee, Dan Price, Jacques Makutonin, Jonathan D'Souza, Michael Reiter*  
 
-![](Images/Logo Kilo.jpg)  
+![](WildTrackAIWeb/static/Logo-tag.jpg)  
 
 ## 1. Introduction  
 [WildTrack](https://wildtrack.org/) is a non-profit organization that aims to develop and provide non-invasive effective monitoring of endangered species in order to mitigate human wildlife conflicts and prevent illegal poaching.  
