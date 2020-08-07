@@ -7,7 +7,7 @@
 
 ## 1. Introduction  
 
-![](Images/Wildtrack-Logo.png)  
+![](Images/WildTrack-Logo.png)  
 
 [WildTrack](https://wildtrack.org/) is a non-profit organization that aims to develop and provide non-invasive effective monitoring of endangered species in order to mitigate human wildlife conflicts and prevent illegal poaching.  
 
