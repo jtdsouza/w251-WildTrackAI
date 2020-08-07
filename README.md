@@ -4,10 +4,9 @@
 *Final Project for W251: Deep Learning in the CLoud and at the Edge*  
 *Participants: Bona Lee, Dan Price, Jacques Makutonin, Jonathan D'Souza, Michael Reiter*  
 
-
+![](Images/Logo Kilo.jpg)  
 
 ## 1. Introduction  
-![](Images/WildTrack-Logo.png)  
 [WildTrack](https://wildtrack.org/) is a non-profit organization that aims to develop and provide non-invasive effective monitoring of endangered species in order to mitigate human wildlife conflicts and prevent illegal poaching.  
 
 Traditional wildlife monitoring techniques rely on fitting of instrumentation to an animal (transmitter on a collar, tag, insert), marking, capture or close visual observation, which have shown to have counterproductive effects on conservation efforts. WildTrack was founded on the premise that monitoring could be made safer and more efficient using non-invasive techniques based on the time-honored tradition of trail and footprint tracking used by indigenous trackers.  
